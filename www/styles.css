@@ -1,0 +1,27 @@
+#info_map {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+          background-color: #1995dc;
+          font-size: 20px;
+          color: #ffffff;
+          font-weight: bold;
+          text-align: center;
+      }
+      
+#filter_table {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+          background-color: white;
+      }
+      
+#apply_filters {
+    font-size: 15px;
+    font-family: inherit;
+    padding: 5px 12px;
+}
