@@ -130,19 +130,19 @@ server <- function(input, output) {
   
   # Load data -----
   # Load the raw survey data
-  peimain_data <- read.csv("data/peisurvey_main.csv", sep = ";")
+  peimain_data <- read.csv("Output/data/peisurvey_main.csv", sep = ";")
   
   # Load the PI repeat group data
-  pi_data <- read.csv("data/peisurvey_pi.csv", sep = ";")
+  pi_data <- read.csv("Output/data/peisurvey_pi.csv", sep = ";")
   
   # Load the Impact Evaluation question repeat group data
-  evalquest_data <- read.csv("data/peisurvey_evalq.csv", sep = ";")
+  evalquest_data <- read.csv("Output/data/peisurvey_evalq.csv", sep = ";")
   
   # Load the treatment arms  repeat group data
-  treat_data <- read.csv("data/peisurvey_treat.csv", sep = ";")
+  treat_data <- read.csv("Output/data/peisurvey_treat.csv", sep = ";")
   
   # Load country data structure that will be used to join geom data and survey data
-  countries_structure <- read.csv("data/country_data_structure.csv", sep = ";")
+  countries_structure <- read.csv("Output/data/country_data_structure.csv", sep = ";")
   
   # Data cleaning and transformation ----
   
