@@ -96,6 +96,7 @@
 !/**/Output/**/*.xml
 !/**/Output/**/*.eps
 !/**/Output/**/*.svg
+!/**/Output/**/*.rds
 
 #######################
 # Include all the files with passwords or tokens here. All files named
