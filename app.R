@@ -515,9 +515,9 @@ server <- function(input, output) {
         mutate(nb_prog_country = sum(across(everything()), na.rm = T)) %>%
         bind_cols(pei_country_name = countries_structure$country_name, 
                   country_region = countries_structure$country_region_wb,
-                  country_code = countries_structure$country_wb_code,
-                  OBJECTID = countries_structure$OBJECTID) %>%
-        select(OBJECTID, country_code, country_region, pei_country_name, nb_prog_country)
+                  country_code = countries_structure$country_wb_code
+                  ) %>%
+        select(country_code, country_region, pei_country_name, nb_prog_country)
       
       # Send a notification to the user
       showNotification("Ploting the map... Please wait.", type = "message", duration = 8)
@@ -876,7 +876,8 @@ server <- function(input, output) {
       mutate(Actions = shinyInput(actionButton, 
                                   nb_ie, 
                                   "button_", 
-                                  label = "View", 
+                                  label = "View project details", 
+                                  class = "btn-primary",
                                   onclick = 'Shiny.onInputChange(\"select_button\",  this.id)')
              )
     
@@ -891,7 +892,7 @@ server <- function(input, output) {
     
     # Configure columns name to display
     table_cols_name <- names(column_list)[match(input$column_picker, column_list)]
-    table_cols_name <- c(table_cols_name, "Actions")
+    table_cols_name <- c(table_cols_name, "Project Details")
     
     #Datatble
     reactive_table_data() %>%
