@@ -1,4 +1,4 @@
-num_3;treat_detail;treat_size_c_s;treat_size_c_p;treat_size_s;treat_size_p;PARENT_KEY;KEY;SET-OF-treat
+﻿num_3;treat_detail;treat_size_c_s;treat_size_c_p;treat_size_s;treat_size_p;PARENT_KEY;KEY;SET-OF-treat
 ;2;;;;;uuid:74c69f5f-adff-4a48-a174-07cd88139354;uuid:74c69f5f-adff-4a48-a174-07cd88139354/mod_2-treat[1];uuid:74c69f5f-adff-4a48-a174-07cd88139354/mod_2-treat
 ;yes;;;;;uuid:74c69f5f-adff-4a48-a174-07cd88139354;uuid:74c69f5f-adff-4a48-a174-07cd88139354/mod_2-treat[2];uuid:74c69f5f-adff-4a48-a174-07cd88139354/mod_2-treat
 ;"Villages receiving ""Cash (e-payment) + Public Works"" intervention, from the sample of villages already receiving e-payments";56;;1624;;uuid:3aa5aeeb-4ac3-434c-bea1-f95bcc27f6ab;uuid:3aa5aeeb-4ac3-434c-bea1-f95bcc27f6ab/mod_2-treat[1];uuid:3aa5aeeb-4ac3-434c-bea1-f95bcc27f6ab/mod_2-treat

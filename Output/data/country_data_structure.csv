@@ -1,4 +1,4 @@
-pei_country_code;country_name;country_wb_code;OBJECTID;country_region_wb
+ï»¿pei_code;country_name;country_wb_code;OBJECTID;country_region_wb
 1;Afghanistan;AFG;126;South Asia
 2;Albania;ALB;61;Europe & Central Asia
 3;Algeria;DZA;118;Middle East & North Africa
@@ -46,10 +46,10 @@ pei_country_code;country_name;country_wb_code;OBJECTID;country_region_wb
 45;Congo, Dem. Rep.;ZAR;30;Sub-Saharan Africa
 46;Congo, Rep.;COG;29;Sub-Saharan Africa
 47;Costa Rica;CRI;27;Latin America & Caribbean
-48;Côte d'Ivoire;CIV;93;Sub-Saharan Africa
+48;CÃ´te d'Ivoire;CIV;93;Sub-Saharan Africa
 49;Croatia;HRV;100;Europe & Central Asia
 50;Cuba;CUB;131;Latin America & Caribbean
-51;Curaçao;CUW;171;Latin America & Caribbean
+51;CuraÃ§ao;CUW;171;Latin America & Caribbean
 52;Cyprus;CYP;7;Europe & Central Asia
 53;Czech Republic;CZE;47;Europe & Central Asia
 54;Denmark;DNK;69;Europe & Central Asia
@@ -164,7 +164,7 @@ pei_country_code;country_name;country_wb_code;OBJECTID;country_region_wb
 163;Rwanda;RWA;122;Sub-Saharan Africa
 164;Samoa;WSM;218;East Asia & Pacific
 165;San Marino;SMR;108;Europe & Central Asia
-166;São Tomé and Principe;STP;205;Sub-Saharan Africa
+166;SÃ£o TomÃ© and Principe;STP;205;Sub-Saharan Africa
 167;Saudi Arabia;SAU;103;Middle East & North Africa
 168;Senegal;SEN;96;Sub-Saharan Africa
 169;Serbia;SRB;94;Europe & Central Asia

@@ -1,31 +1,92 @@
+# Global -----
 # Loading the necessary packages
-
 library(shiny)
 library(shinydashboard)
 library(shinythemes)
 library(tidyverse)
+library(dplyr)
 library(DT)
 library(shinyWidgets)
-library(dplyr)
 library(shinyjs)
 library(shinyBS)
 library(udunits2)
 library(sf)
 library(ggplot2)
 library(plotly)
+library(shinyhelper)
+library(echarts4r)
+
+
+# Load country data structure that will be used to join geom data and survey data
+countries_data_structure <- read.csv("Output/data/country_data_structure.csv", sep = ";", encoding = "UTF-8")
+
+# Load Geo data file
+wb_country_geom_fact <- read_rds("Output/data/wb_country_geom_fact.rds")
 
 
 # Define UI for the application----
 ui <- navbarPage(id = "intabset",
+           
            ## Header ----
            title = "IE Collaborative Dashboard", # Navigation bar
            theme = shinytheme("cerulean"), #Theme of the app (blue navbar)
            collapsible = TRUE, #tab panels collapse into menu in small screens
            header = tags$head(includeCSS("www/styles.css"), # CSS styles
                               HTML("<html lang='en'>")),
+           
+           # Allow to use functions from 'shinydashboard' into a classic 'shiny'
+           useShinydashboard(),
+           
            ## Home page ----
            tabPanel(
-             title = " Home", icon = icon("home"),
+             title = "Home", icon = icon("home"), value = "home",
+             fluidPage(
+               fluidRow(id = "title",
+                        h1("Welcome to the IE Collaborative Dashboard Page")
+                        ),
+               fluidRow(id = "about",
+                 includeMarkdown("aboutpei.md")
+                 ),
+               hr(),
+               h3("Summary statictics"),
+               br(),
+               fluidRow(
+                 column(width = 4,
+                        uiOutput("number_ie")
+                        ),
+                 column(width = 4, 
+                        offset = 4,
+                        uiOutput("number_countries") 
+                        )
+                 ),
+               br(),
+               fluidRow(id = "graph",
+                 column(width = 6,
+                     status = "info",
+                     title = "Share of learning priorities", 
+                     echarts4rOutput("learning_priority_bar", 
+                                     height = "40vh"
+                                     )
+                     ),
+                 column(width = 6,
+                     status = "info",
+                     title = "Share of priority groups",
+                     echarts4rOutput("priority_group_bar", 
+                                     height = "40vh"
+                                     )
+                     )
+                 
+                 )
+               
+             ), # Fluid page bracket
+             br(),
+             br()
+           ), # Home Tab Panel Bracket
+           
+           
+           ## Map page ----
+           tabPanel(
+             title = "Map", icon = icon("map-marked"), value = "map",
              fluidPage(
                # Sidebar layout with inputs
                sidebarLayout(
@@ -58,7 +119,7 @@ ui <- navbarPage(id = "intabset",
                                               "Targeting/heterogeneity: What modifications in bundle design and delivery are necessary to increase cost-effectiveness for different sub-groups?", 
                                               "External validity across settings: How to adapt economic inclusion programs in urban contexts?", 
                                               "External validity across settings: How to adapt economic inclusion programs in FCV or displacement affected contexts?", 
-                                              "Resilience and shock-responsiveness: Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?",
+                                              "Resilience and shock-responsiveness: Do economic inclusion programs improve households’ resilience to (climate, conflict, or economic) shocks? How?",
                                               "Other"),
                                selected = "All"),
                    
@@ -85,20 +146,17 @@ ui <- navbarPage(id = "intabset",
                    ), # Information bracket
                    #div(style = "margin-bottom: 30px;"), # Create some space between filters and map
                    fluidRow(
-                     box(width = 12,
-                         plotlyOutput("map", width = "100%", height = "600px")
-                     )
-                     
+                     plotlyOutput("map", width = "100%", height = "600px")
                    ) # Map bracket
                  )
                  
                ), # Sidebarlayout bracket
              ) #Fluid page bracket
-            ), # Home Tab Panel Bracket
+            ), # Map Tab Panel Bracket
            
            ## Project Page ----
            tabPanel(
-             title = "Browse Projects", icon = icon("table"), value = "projects",
+             title = "Browse IE", icon = icon("table"), value = "projects",
              fluidPage(
                # Sidebar layout with inputs
                sidebarLayout(
@@ -112,7 +170,15 @@ ui <- navbarPage(id = "intabset",
                    # Select column
                    uiOutput("column_picker"),
                    
-                   h5("Filters: Select information to display"),
+                   h5("Filters: Select information to display") %>%
+                     helper(
+                       type = "inline",
+                       title = "Select information to display",
+                       content = c("Use the pickers below to display in the table the IEs matching <b>any</b> of the option(s) selected for each picker.",
+                                   "You can select several choices for each picker.",
+                                   "The IEs displayed in the table are the one satisfying the criterias of <b>all</b> the pickers."),
+                       size = "s"
+                     ),
                    hr(),
                    
                    # Region Select
@@ -137,19 +203,7 @@ ui <- navbarPage(id = "intabset",
                  # Main panel for displaying outputs
                  mainPanel(
                    width = 9,
-                   fluidRow(id="data_table", 
-                            column(width = 2, offset = 5, 
-                                   actionBttn("view_ie", 
-                                              label = "IE details", 
-                                              icon = icon("book-reader"), 
-                                              block=TRUE),
-                                   bsTooltip("view_ie", 
-                                             "Select an IE in the table below and click here to display the IE details.", 
-                                             placement = "bottom", 
-                                             trigger = "hover",
-                                             options = NULL)
-                                   ), 
-                            br(),
+                   fluidRow(id="data_table",
                             DTOutput("pei_data_table")
                    )
                  )
@@ -159,7 +213,23 @@ ui <- navbarPage(id = "intabset",
             ), # Project Tab Panel Bracket
            ## Project Card ----
            tabPanel(
-             title = "Project Card", icon = icon("file-invoice"), value = "card"
+             title = uiOutput("title_panel"), value = "card",
+             fluidPage(
+               actionBttn("back_table", 
+                          label = "Back", 
+                          icon = icon("arrow-alt-circle-left"),
+                          size = "sm"
+                          ),
+               bsTooltip("back_table", 
+                         "Click here to go back to IE table page.", 
+                         placement = "bottom", 
+                         trigger = "hover",
+                         options = NULL
+                         ),
+               br(),
+               column(width = 12, uiOutput("iecard"))
+               
+             )#Fluid page bracket
             ) # Project Card Bracket
 
 )# Navbar bracket
@@ -168,27 +238,36 @@ ui <- navbarPage(id = "intabset",
 
 # Define server logic----
 server <- function(input, output) {
-  # Send a notification to the user
-  showNotification("Loading the data... Please wait.", type = "message", duration = 2)
+  # Initialize helper
+  observe_helpers(withMathJax = TRUE)
+  
+  # Layout update -----
+  # Hide IE card panel by default when the first two panels are selected
+  observeEvent(input$intabset, {
+    
+    if (input$intabset == "home" | input$intabset == "map" | input$intabset == "projects") {
+      hideTab(inputId = "intabset", target = "card")
+    }
+    
+  })
   
   # Load data -----
+  # Send a notification to the user
+  showNotification("Loading the data... Please wait.", type = "message", duration = 2)
   # Load the raw survey data
-  peimain_data <- read.csv("Output/data/peisurvey_main.csv", sep = ";")
+  peimain_data <- read.csv("Output/data/peisurvey_main.csv", sep = ";", encoding = "UTF-8")
   
   # Load the PI repeat group data
-  pi_data <- read.csv("Output/data/peisurvey_pi.csv", sep = ";")
+  pi_data <- read.csv("Output/data/peisurvey_pi.csv", sep = ";", encoding = "UTF-8")
   
   # Load the Impact Evaluation question repeat group data
-  evalquest_data <- read.csv("Output/data/peisurvey_evalq.csv", sep = ";")
+  evalquest_data <- read.csv("Output/data/peisurvey_evalq.csv", sep = ";", encoding = "UTF-8")
   
   # Load the treatment arms  repeat group data
-  treat_data <- read.csv("Output/data/peisurvey_treat.csv", sep = ";")
+  treat_data <- read.csv("Output/data/peisurvey_treat.csv", sep = ";", encoding = "UTF-8")
   
-  # Load country data structure that will be used to join geom data and survey data
-  countries_structure <- read.csv("Output/data/country_data_structure.csv", sep = ";")
-  
-  # Load Geo data file
-  wb_country_geom <- read_rds("Output/data/wb_country_geom_fact.rds")
+  # Local copy of country data structure
+  countries_structure <- countries_data_structure
   
   # Data cleaning and transformation ----
   # Pull country label vector assigning each country code to its corresponding label
@@ -208,7 +287,7 @@ server <- function(input, output) {
                            "3" = "Community-based (members of the community help identify beneficiary households)", 
                            "4" = "Proxy Means Test, poverty scorecards or any type of vulnerability scoring or index (e.g. Poverty Probability Index)", 
                            "5" = "Other",
-                           "6" = "Not applicable (i.e. the program does not target based on beneficiaries' characteristics)"
+                           "6" = "Not applicable (i.e. the program does not target based on beneficiaries’ characteristics)"
                            )
   
   #Label for learning priority
@@ -224,7 +303,7 @@ server <- function(input, output) {
     "8" = "Targeting/heterogeneity: What modifications in bundle design and delivery are necessary to increase cost-effectiveness for different sub-groups?", 
     "9" = "External validity across settings: How to adapt economic inclusion programs in urban contexts?", 
     "10" = "External validity across settings: How to adapt economic inclusion programs in FCV or displacement affected contexts?", 
-    "11" = "Resilience and shock-responsiveness: Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?",
+    "11" = "Resilience and shock-responsiveness: Do economic inclusion programs improve households’ resilience to (climate, conflict, or economic) shocks? How?",
     "12" = "Other")
   learning_priority_label <- learning_priority_label[sort(as.numeric(names(learning_priority_label)), decreasing = TRUE)]
   #Define label for area
@@ -258,7 +337,108 @@ server <- function(input, output) {
     ) 
   
   
-  #Home Page-----
+  # Home page -----
+  
+  # Count the number of IE in the database
+  n_ie <- peimain_data %>%
+    nrow()
+  
+  # Info Box: number of IE
+  output$number_ie <- renderInfoBox({
+    infoBox(title = "",
+            subtitle = "impact evaluations recorded",
+            value = n_ie,
+            icon = icon("briefcase", lib = "glyphicon"),
+            color = "green",
+            fill = TRUE
+            )
+    
+  })
+  
+  # Info Box: number of countries
+  output$number_countries <- renderInfoBox({
+    n_countries <- peimain_data %>%
+      select(country_1:country_217) %>%
+      t() %>%
+      as.data.frame() %>%
+      rowwise() %>%
+      mutate(nb_prog_country = sum(across(everything()), na.rm = T)) %>%
+      filter(nb_prog_country >= 1) %>%
+      nrow()
+      
+    
+    infoBox(title = "",
+            subtitle = "countries with active Impact Evalution",
+            value = n_countries,
+            icon = icon("map-marker", lib = "glyphicon"),
+            color = "green",
+            fill = TRUE
+            )
+    
+  })
+  
+  # Graph: Share of learning priority
+  output$learning_priority_bar <- renderEcharts4r({
+    
+    # Learning Priority label
+    learning_priority_label <- c( 
+      "P1", 
+      "P2", 
+      "P3", 
+      "P4", 
+      "P5",
+      "P6", 
+      "P7", 
+      "P8", 
+      "P9", 
+      "P10", 
+      "P11",
+      "P12")
+    
+    peimain_data %>%
+      select(learning_priority_1:learning_priority_12) %>%
+      t() %>%
+      as.data.frame() %>%
+      rowwise() %>%
+      mutate(count = sum(across(everything()), na.rm = T)) %>%
+      bind_cols(priority_lbl = learning_priority_label) %>%
+      e_chart(priority_lbl) %>%
+      e_bar(count, name = "Number of IE", color = "green") %>%
+      e_legend(show = F) %>%
+      e_tooltip() %>%
+      e_axis(axisLabel = list(interval = 0, rotate = 45, fontSize = 10)) %>%
+      e_grid(height = "50%") %>%
+      e_title("Share of learning priority", left = "center")
+  })
+  
+  # Graph: Share of priority group
+  output$priority_group_bar <- renderEcharts4r({
+    
+    # Learning Priority label
+    priority_group_label <- c("1" = "Women", "2" = "Children", "3" = "Youth", 
+                              "4" = "Elderly", "5" = "People with disabilities", 
+                              "6" = "Refugees", "7" = "Internally displaced", 
+                              "8" = "Ethnic minorities", "9" = "Other")
+    
+    peimain_data %>%
+      select(priority_group_1:priority_group_9) %>%
+      t() %>%
+      as.data.frame() %>%
+      rowwise() %>%
+      mutate(count = sum(across(everything()), na.rm = T)) %>%
+      bind_cols(priority_group_lbl = priority_group_label) %>%
+      e_chart(priority_group_lbl) %>%
+      e_bar(count, name = "Number of IE", color = "green") %>%
+      e_legend(show = F) %>%
+      e_tooltip() %>%
+      e_axis(axisLabel = list(interval = 0, rotate = 45, fontSize = 10)) %>%
+      e_grid(height = "50%") %>%
+      e_title("Share of priority group", left = "center")
+  })
+  
+  
+  
+  # Map Page-----
   
   # PI Affiliation Select Input
   output$piaffiliation_select <- renderUI({
@@ -340,7 +520,7 @@ server <- function(input, output) {
         select(OBJECTID, country_code, country_region, pei_country_name, nb_prog_country)
       
       # Send a notification to the user
-      showNotification("Ploting the map... Please wait.", type = "message", duration = 4)
+      showNotification("Ploting the map... Please wait.", type = "message", duration = 8)
       
       map_data_region <- map_data_country %>%
         filter(!(country_region == "")) %>%
@@ -349,7 +529,7 @@ server <- function(input, output) {
       
       # Join data to shapefile and compute centroid of countries
       wb_country_geom <- 
-        wb_country_geom %>%
+        wb_country_geom_fact %>%
         st_transform("+proj=longlat +datum=WGS84 +no_defs") %>%
         left_join(map_data_country %>% select(country_code, pei_country_name, nb_prog_country), 
                   by=c("WB_A3"="country_code")) %>%
@@ -473,8 +653,8 @@ server <- function(input, output) {
   # IE Table Page -----
   
   #Define the list of columns
-  column_list <- c("Country" = "country_lbl",
-                   "Title" = "ie_name",
+  column_list <- c("Title" = "ie_name",
+                   "Country" = "country_lbl",
                    "Research Team" = "research_team",
                    "Summary" = "ie_summary", 
                    "Research questions" = "research_questions",
@@ -495,9 +675,16 @@ server <- function(input, output) {
                 label =  "Column", 
                 choices = column_list, 
                 multiple = TRUE,
-                selected = column_list[c("Country", "Title", "Summary", "Geographic coverage", "Area", "Target method")],
+                selected = column_list[c("Title", "Country", "Research Team", "Geographic coverage", "Area", "Target method")],
                 options = list(`actions-box` = TRUE)
-                )
+                ) %>%
+      helper(
+        type = "inline",
+        title = "Column to display",
+        content = c("Use this picker to select the columns to display.",
+                    "<b>All the columns selected</b> will be displayed in the table."),
+        size = "s"
+        )
   })
   
   # Region Select Input
@@ -517,10 +704,10 @@ server <- function(input, output) {
                 selected = regions,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                   )
+                   ) 
   })
   
-  # Region Select Input
+  # Country Select Input
   output$country_select <- renderUI({
     req(input$region_select)
     
@@ -538,7 +725,7 @@ server <- function(input, output) {
                 selected = countries,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                )
+                ) 
   })
   
   # Identification strategy picker
@@ -557,7 +744,7 @@ server <- function(input, output) {
                 selected = strategies,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                )
+                ) 
     
   })
   
@@ -577,7 +764,7 @@ server <- function(input, output) {
                 selected = pop_groups,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                )
+                ) 
     
   })
   
@@ -595,7 +782,7 @@ server <- function(input, output) {
                       "Targeting/heterogeneity: What modifications in bundle design and delivery are necessary to increase cost-effectiveness for different sub-groups?", 
                       "External validity across settings: How to adapt economic inclusion programs in urban contexts?", 
                       "External validity across settings: How to adapt economic inclusion programs in FCV or displacement affected contexts?", 
-                      "Resilience and shock-responsiveness: Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?",
+                      "Resilience and shock-responsiveness: Do economic inclusion programs improve households’ resilience to (climate, conflict, or economic) shocks? How?",
                       "Other")
     
     pickerInput(inputId = "learning_picker",
@@ -604,7 +791,7 @@ server <- function(input, output) {
                 selected = learning_priorities,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                )
+                ) 
     
   })
   
@@ -623,12 +810,21 @@ server <- function(input, output) {
                 selected = piaffiliations,
                 multiple = TRUE,
                 options = list(`actions-box` = TRUE)
-                )
+                ) 
   })
   
   # Data table -----
-  # Reactive Data
   
+  # Function to create and name inputs
+  shinyInput <- function(FUN, len, id, ...) {
+    inputs <- character(len)
+    for (i in seq_len(len)) {
+      inputs[i] <- as.character(FUN(paste0(id, i), ...))
+    }
+    inputs
+  }
+  
+  # Reactive Data
   reactive_table_data <- reactive({
     req(input$country_select)
     req(input$strategy_picker)
@@ -660,7 +856,7 @@ server <- function(input, output) {
     
     
     # Prepare data to display and filter data based on the inputs value (have to update this)
-    peimain_data %>%
+    table_data <- peimain_data %>%
       left_join(pi_data_agg, by="SET.OF.pis") %>%
       left_join(evalquest_data_agg, by="SET.OF.eval_q") %>%
       filter(
@@ -670,24 +866,107 @@ server <- function(input, output) {
         grepl(paste(f4, collapse="|"), learning_priority_lbl),
         grepl(paste(f5, collapse="|"), pi_affiliation)
       )
+    
+    # Compute the number of IE matching the criterias
+    nb_ie <- table_data %>% 
+      nrow()
+    
+    # Apply the input function to create a column of input in the reactive dataframe
+    table_data %>%
+      mutate(Actions = shinyInput(actionButton, 
+                                  nb_ie, 
+                                  "button_", 
+                                  label = "View", 
+                                  onclick = 'Shiny.onInputChange(\"select_button\",  this.id)')
+             )
+    
   })
   
   # Table
   output$pei_data_table <- renderDT({
     req(input$column_picker)
     
+    # Configure columns to display
+    table_cols <- c(input$column_picker, "Actions")
+    
+    # Configure columns name to display
+    table_cols_name <- names(column_list)[match(input$column_picker, column_list)]
+    table_cols_name <- c(table_cols_name, "Actions")
+    
+    #Datatble
     reactive_table_data() %>%
-      select(input$column_picker) %>%
+      select(table_cols) %>%
       datatable(rownames=F,
-                colnames = names(column_list)[match(input$column_picker, column_list)],
-                selection = c("single"),
+                colnames = table_cols_name,
+                selection = c("none"),
+                escape = FALSE,
                 filter = list(position = 'top', clear = TRUE),
                 options = list(paging = T, 
-                               scrollY = "60vh", 
+                               scrollY = "65vh", 
                                scrollX = "100%")
                 )
   })
   
+  # IE Card -----
+  
+  # Show the IE Card Page
+  observeEvent(input$select_button, {
+    selectedRow <- as.numeric(strsplit(input$select_button, "_")[[1]][2])
+    
+    # Data of the IE selected in the table
+    ie_main_data <- reactive_table_data() %>%
+      slice(selectedRow)
+    # Create key to pull data from the sub data
+    pi_key <- ie_main_data[, "SET.OF.pis"]
+    treat_key <- ie_main_data[, "SET.OF.treat"]
+    evalquest_key <- ie_main_data[, "SET.OF.eval_q"]
+    # Pull sub data for the selected IE
+    ie_pi_data <- pi_data %>% 
+      filter(SET.OF.pis == pi_key)
+    
+    ie_treat_data <- treat_data %>%
+      filter(SET.OF.treat == treat_key)
+    
+    ie_evalquest_data <- evalquest_data %>%
+      filter(SET.OF.eval_q == evalquest_key)
+    
+    # Set up parameters to pass to Rmd document
+    params <- list(ie_main_data = ie_main_data,
+                   ie_pi_data = ie_pi_data,
+                   ie_treat_data = ie_treat_data,
+                   ie_evalquest_data = ie_evalquest_data
+    )
+    # Render the IE Card
+    output$iecard <- renderUI({
+      includeHTML(
+        rmarkdown::render(
+          "Output/iecard/iecard.Rmd",
+          params = params,
+          output_file = "iecard.html"
+        )
+      )
+    })
+    
+    # Update the title of the IE Card Page
+    output$title_panel = renderText({
+      "IE Details" 
+    })
+    
+    # Display the IE Card Page
+    showTab(inputId = "intabset", target = "card", select = TRUE)
+    
+  })
+  
+  # back to IE table
+  observeEvent(input$back_table, {
+    updateNavbarPage(inputId = "intabset", selected = "projects")
+    
+    # Clean the IE Card
+    output$iecard <- renderUI({
+      
+    })
+    
+  })
   
   
 }
