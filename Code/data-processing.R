@@ -27,6 +27,11 @@ countries <-
 
 ## Load data -------------------------------------------------------------------
 
+country_lab <-
+  countries$country
+
+names(country_lab) <-
+  countries$country_code
 
 # Load the raw survey data
 raw <- 
@@ -90,6 +95,57 @@ pi_affiliation %>%
   )
 
 countries <-
+pi_affiliation_project <-
+  pi_affiliation %>%
+  group_by(KEY) %>%
+  summarize(
+    pi_affiliation = paste(affiliation %>% unique, collapse = "<br>")
+  )
+
+## Process project information -------------------------------------------------
+
+### Label variables ------------------------------------------------------------
+
+label_select_one <-
+  function(x, label, other = NULL) {
+    var <- 
+      str_replace_all(
+        string = x,
+        pattern = label
+      )
+    
+    if (!is.null(other)) {
+      var <-
+        str_replace_all(
+          string = var,
+          pattern = "Other",
+          replace = paste("Other:", other)
+        )
+    }
+
+    return(var)
+  }
+
+label_select_multiple <-
+  function(x, label, other = NULL) {
+    var <-
+      x %>%
+      str_replace_all(" ", "<br>") %>%
+      str_replace_all(label)
+    
+    if (!is.null(other)) {
+      var <-
+        str_replace_all(
+          string = var,
+          pattern = "Other",
+          replace = paste("Other:", other)
+        )
+    }
+    
+    return(var)
+  }
+
+labeled <-
   raw %>%
   select(
     KEY,
