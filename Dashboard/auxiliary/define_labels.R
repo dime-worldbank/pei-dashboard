@@ -4,6 +4,12 @@ area_lab <- c(
   "3" = "Peri-urban"
 )
 
+yesno_lab <-
+  c(
+    "1" = "Yes",
+    "2" = "No"
+  )
+
 geo_cov_lab <- c(
   "1" = "National",
   "2" = "Several states/regions within the country",
@@ -57,18 +63,18 @@ ie_method_lab <-
 
 learning_priority_lab <-
   c(
-    "1" = "<strong>Effectiveness at scale:</strong> What is the cost-effectiveness of large-scale government-led programs? ",
-    "2" = "<strong>Effectiveness at scale:</strong> What is the nature and extent of spillovers and general equilibrium effects on the local economy? ",
-    "3" = "<strong>Scalable delivery modalities:</strong> How do alternative delivery modalities that enhance scalability affect program impact and cost-effectiveness?",
-    "4" = "<strong>Dynamics over time:</strong> How do impacts vary over time? Are impacts sustained in the short, medium and the long-term? How do impacts over time affect its cost-benefit analysis? ",
-    "5" = "<strong>Bundling of Interventions:</strong> What is the appropriate/optimal bundle for a given context? What is the marginal contribution of constituent interventions to overall impact and cost? ",
-    "6" = "<strong>Bundling of Interventions:</strong> Does the timing, sequencing, and intensity of interventions matter? ",
-    "7" = "<strong>Targeting/heterogeneity:</strong> What is the cost-effectiveness of economic inclusion programs across population groups? ",
-    "8" = "<strong>Targeting/heterogeneity:</strong> What modifications in bundle design and delivery are necessary to increase cost-effectiveness for different sub-groups? ",
-    "9" = "<strong>External validity across settings:</strong> How to adapt economic inclusion programs in urban contexts? ",
-    "10" = "<strong>External validity across settings:</strong> How to adapt economic inclusion programs in FCV or displacement affected contexts? ",
-    "11" = "<strong>Resilience and shock-responsiveness:</strong> Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?",
-    "12" = "<strong>Other</strong>"
+    "1"  = "Cost-effectiveness of large-scale government-led programs",
+    "2"  = "Spillovers and general equilibrium effects",
+    "3"  = "Effects on impact and cost-effectiveness",
+    "4"  = "How impacts vary over time",
+    "5"  = "Optimal bundle/marginal contribution of bundled interventions",
+    "6"  = "Timing, sequencing, and intensity of bundled interventions",
+    "7"  = "Cost-effectiveness across population groups",
+    "8"  = "Increasing cost-effectiveness for sub-groups",
+    "9"  = "External validity: adapting to urban contexts",
+    "10" = "External validity: adapting to fragile contexts",
+    "11" = "Effects on resilience and mechanisms",
+    "12" = "Other"
   )
 
 lead_lab <-
@@ -87,5 +93,5 @@ lead_lab <-
 cluster_lab <-
   c(
     "1" = "Clustered",
-    "0" = "Not clustered"
+    "2" = "Not clustered"
   )
