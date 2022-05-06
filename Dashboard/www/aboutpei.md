@@ -1,6 +1,8 @@
 #### About us
 
-To date, the scale up of economic inclusion programs builds on a [promising evidence base](https://openknowledge.worldbank.org/handle/10986/34917). However, there are still critical gaps in understanding the mechanisms and drivers of impact and cost-effectiveness especially for large-scale government-led programs. The World Bank's [Partnership for Economic Inclusion](https://www.peiglobal.org/sites/pei/files/2020-10/pei%20annual%20report%202020-HR.pdf) (PEI) and [Development Impact Evaluation department](https://www.worldbank.org/en/research/dime) (DIME) have partnered to launch the *Impact Evaluation Collaborative on Moving Economic Inclusion to Scale* (PEI IE Collaborative) with the goal of informing an evidence-based scale-up of economic inclusion programming through the implementation of high quality impact evaluations and assessment of cost-effectiveness of government-led economic inclusion programs. 
+To date, the scale up of economic inclusion programs builds on a <a href="https://openknowledge.worldbank.org/handle/10986/34917" target="_blank"> promising evidence base </a>. However, there are still critical gaps in understanding the mechanisms and drivers of impact and cost-effectiveness especially for large-scale government-led programs. The World Bank's
+<a href="https://www.peiglobal.org/sites/pei/files/2020-10/pei%20annual%20report%202020-HR.pdf" target="_blank"> Partnership for Economic Inclusion </a> (PEI) and 
+<a href="https://www.worldbank.org/en/research/dime" target="_blank"> Development Impact Evaluation department</a> (DIME) have partnered to launch the *Impact Evaluation Collaborative on Moving Economic Inclusion to Scale* (PEI IE Collaborative) with the goal of informing an evidence-based scale-up of economic inclusion programming through the implementation of high quality impact evaluations and assessment of cost-effectiveness of government-led economic inclusion programs. 
 
 #### This dashboard
 
