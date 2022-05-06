@@ -2,47 +2,7 @@ server <- function(input, output) {
   
   
   # Home Page-------------------------------------------------------------------
-  
-  ## Info Box: number of IEs ---------------------------------------------------
-  
-  output$n_ies <- 
-    renderInfoBox({
-      infoBox(
-        title = "",
-        subtitle = "impact evaluations recorded",
-        value = project_data %>% nrow(),
-        icon = icon("briefcase", lib = "glyphicon"),
-        color = "teal",
-        fill = TRUE
-      )
-  })
-  
-  ## Info Box: number of countries ---------------------------------------------
-  output$n_countries <- 
-    renderInfoBox({
-      infoBox(
-        title = "",
-        subtitle = "countries with active impact evalutions",
-        value = projects_country %>% pull(iso) %>% n_distinct(),
-        icon = icon("map-marker", lib = "glyphicon"),
-        color = "teal",
-        fill = TRUE
-      )
-    })
-  
-  ## Info Box: number of institutions ------------------------------------------
-  output$n_institutions <- 
-    renderInfoBox({
-      infoBox(
-        title = "",
-        subtitle = "instituions with active impact evaluations",
-        value = pi_affiliation_lab %>% n_distinct(),
-        icon = icon("building"),
-        color = "teal",
-        fill = TRUE
-      )
-    })
-  
+
   ## Graph: Share of learning priority -----------------------------------------
   output$learning_priority_bar <- 
     renderPlot({
@@ -102,11 +62,7 @@ server <- function(input, output) {
   ## Information Box: Number of projects ----------------------------------------
   output$n_projects <-
     renderText({
-      paste0(
-        "Number of projects: ",
-        map_projects() %>%
-            nrow()
-      )
+      map_projects() %>%nrow()
     })
 
   ## Map Plot ------------------------------------------------------------------

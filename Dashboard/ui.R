@@ -36,9 +36,36 @@ ui <- fluidPage(
             
             column(
               width = 4,
-              uiOutput("n_ies"),
-              uiOutput("n_countries"),
-              uiOutput("n_institutions") 
+              
+              infoBox(
+                width = 12,
+                title = "",
+                subtitle = "impact evaluations recorded",
+                value = project_data %>% nrow(),
+                icon = icon("briefcase", lib = "glyphicon"),
+                color = "teal",
+                fill = TRUE
+              ),
+              
+              infoBox(
+                width = 12,
+                title = "",
+                subtitle = "countries with active impact evaluations",
+                value = projects_country %>% pull(iso) %>% n_distinct(),
+                icon = icon("map-marker", lib = "glyphicon"),
+                color = "teal",
+                fill = TRUE
+              ),
+              
+              infoBox(
+                width = 12,
+                title = "",
+                subtitle = "institutions with active impact evaluations",
+                value = pi_affiliation_lab %>% n_distinct(),
+                icon = icon("building"),
+                color = "teal",
+                fill = TRUE
+              )
             )
           ),
           
