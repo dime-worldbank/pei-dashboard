@@ -5,12 +5,15 @@ library(shinydashboard)
 library(shinythemes)
 library(tidyverse)
 library(DT)
+library(here)
 library(shinyWidgets)
 library(dplyr)
 library(shinyjs)
 library(sf)
 library(ggplot2)
 library(plotly)
+library(leaflet.extras)
+library(leaflet)
 
 # Options ----------------------------------------------------------------------
 
@@ -35,14 +38,48 @@ for (object in ls()) {
 
 pi_data <-
   read_rds(
-    "data",
-    "pis.rds"
+    file.path(
+      "data",
+      "pis.rds" 
+    )
   )
 
 pi_affiliation_lab <-
   pi_data %>%
-  select(affiliation) %>%
+  pull(affiliation) %>%
   unique
+
+project_data <-
+  read_rds(
+    file.path(
+      "data",
+      "projects.rds"
+    )
+  )
+
+map <-
+  read_rds(
+    file.path(
+      "data",
+      "map.rds"
+    )
+  )
+
+centroids <-
+  read_rds(
+    file.path(
+      "data",
+      "centroids.rds"
+    )
+  )
+
+projects_country <-
+  read_rds(
+    file.path(
+      "data",
+      "projects-country.rds"
+    )
+  )
 
 # List of learning priorities --------------------------------------------------
 
@@ -50,29 +87,53 @@ learning_priority <-
   list(
     "Effectiveness at scale" = 
       c(
-        "1" = "Cost-effectiveness of large-scale government-led programs",
-        "2" = "Nature and extent of spillovers and general equilibrium effects"
+        "Cost-effectiveness of large-scale government-led programs" = "1",
+        "Spillovers and general equilibrium effects" = "2"
       ),
-    "Scalable delivery modalities" =  c("3" = "Effects on impact and cost-effectiveness"), 
-    "Dynamics over time" = c("4" = "How impacts vary over time"),
+    "Scalable delivery modalities" =  c("Effects on impact and cost-effectiveness" = "3"), 
+    "Dynamics over time" = c("How impacts vary over time" = "4"),
     "Bundling of Interventions" =
       c(
-        "5" = "Optimal bundle/marginal contribution of constituent interventions",
-        "6" = "Timing, sequencing, and intensity"
+        "Optimal bundle/marginal contribution of constituent interventions" = "5",
+        "Timing, sequencing, and intensity" = "6"
       ),
     "Targeting/heterogeneity" =
       c(
-        "7" = "Cost-effectiveness across population groups",
-        "8" = "Increasing cost-effectiveness for sub-groups"
+        "Cost-effectiveness across population groups" = "7",
+        "Increasing cost-effectiveness for sub-groups" = "8"
       ), 
     "External validity" =
       c(
-        "9" = "Adapting to urban contexts",
-        "10" = "Adapting to fragile contexts"
+        "Adapting to urban contexts" = "9",
+        "Adapting to fragile contexts"= "10"
       ),
-    "Resilience and shock-responsiveness" = c("11" = "Effects on resilience and mechanisms"),
-    "Other" = c("12" = "Other")
+    "Resilience and shock-responsiveness" = c("Effects on resilience and mechanisms" = "11"),
+    "Other" = c("Other" = "12")
   )
+
+# Map colors -------------------------------------------------------------------
+
+region_colors <-
+  c(
+    "#688ade",
+    "#d1a04b",
+    "#b86867",
+    "#76abad",
+    "#936d9e",
+    "#6d9e7d",
+    "#dbcd60"
+  )
+
+icons <- awesomeIcons(
+  icon = 'circle-dot',
+  iconColor = 'black',
+  library = 'ion',
+  markerColor = "#808080"
+)
+
+pal <- colorFactor(
+  palette = region_colors,
+  domain = map$region)
 
 # Functions --------------------------------------------------------------------
 

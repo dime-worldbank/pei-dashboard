@@ -39,35 +39,43 @@ ui <- navbarPage(
            h3(paste("Filters")), #Title
            
            # First input: Identification strategy
-           selectInput(
-             inputId = "strategy_select",
+           pickerInput(
+             inputId = "method",
              label = "Impact evaluation identification strategy:",
              choices = ie_method_lab,
-             selected = ie_method_lab
+             selected = ie_method_lab,
+             options = list(`actions-box` = TRUE), 
+             multiple = TRUE
             ),
            
            # Second input: PEI Learning Priority
-           selectInput(
-             inputId = "learningpriority_select",
+           pickerInput(
+             inputId = "learning",
              label = "Impact evaluation learning priority:",
              choices = learning_priority,
-             selected = learning_priority
+             selected = c(1:12) %>% as.character,
+             options = list(`actions-box` = TRUE),
+             multiple = TRUE
            ),
            
            # Third input: PI Affiliation (rendered from the server: text variable)
-           selectInput(
-             inputId = "piaffiliation_select",
+           pickerInput(
+             inputId = "affiliation",
              label = "Principal Investigator's affiliation:",
              choices = pi_affiliation_lab,
-             selected = pi_affiliation_lab
+             selected = pi_affiliation_lab,
+             options = list(`actions-box` = TRUE),
+             multiple = TRUE
            ),
            
            # Fourth input: Priority Group
-           selectInput(
-             inputId = "prioritygroup_select",
+           pickerInput(
+             inputId = "target",
              label = "Priority population groups that the program targets:",
              choices = priority_group_lab,
-             selected = priority_group_lab
+             selected = priority_group_lab,
+             options = list(`actions-box` = TRUE),
+             multiple = TRUE
             )
            
          ), # Sidebarpanel bracket
@@ -76,20 +84,21 @@ ui <- navbarPage(
          mainPanel(
            
            width = 9,
-           fluidRow(
-             id = "info_map",
-             textOutput("projectcount")
-           ), 
            
            fluidRow(
              box(
                width = 12,
-               plotlyOutput(
-                 "map", 
-                 width = "100%", 
-                 height = "500px"
+               leafletOutput(
+                 "map",
+                 width = "100%",
+                 height = "800px"
                )
              )
+           ),
+           
+           fluidRow(
+             id = "info_map",
+             textOutput("projectcount")
            )
 
          ) # Main panel bracket

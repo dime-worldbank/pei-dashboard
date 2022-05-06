@@ -58,6 +58,41 @@ source(
   )
 )
 
+## Process country information -------------------------------------------------
+
+project_country <-
+  raw %>%
+  select(
+    KEY,
+    country
+  ) %>%
+  separate(
+    country,
+    into = paste0("country_", 1:100)
+  ) %>%
+  pivot_longer(
+    cols = starts_with("country"),
+    names_prefix = "country",
+    names_to = "count",
+    values_to = "country_code"
+  ) %>%
+  select(-count) %>%
+  filter(!is.na(country_code)) %>%
+  left_join(countries) %>%
+  select(
+    -iso_a3,
+    -country_code
+  )
+
+project_country %>%
+  write_rds(
+    here(
+      "Dashboard",
+      "data",
+      "projects-country.rds"
+    )
+  )
+
 ## Process PI information ------------------------------------------------------
 
 pi <-
@@ -94,7 +129,6 @@ pi_affiliation %>%
     )
   )
 
-countries <-
 pi_affiliation_project <-
   pi_affiliation %>%
   group_by(KEY) %>%
@@ -147,23 +181,6 @@ label_select_multiple <-
 
 labeled <-
   raw %>%
-  select(
-    KEY,
-    country
-  ) %>%
-  separate(
-    country,
-    into = paste0("country_", 1:100)
-  ) %>%
-  pivot_longer(
-    cols = starts_with("country"),
-    names_prefix = "country",
-    names_to = "count",
-    values_to = "country_code"
-  ) %>%
-  select(-count) %>%
-  filter(!is.na(country_code))
-  
   transmute(
     KEY = KEY,
     lead = label_select_one(lead, lead_lab, lead_s),
@@ -209,6 +226,34 @@ map <-
       "wb_country_geom.rds"
     )
   ) %>%
-  left_join(countries)
+  right_join(countries) %>%
+  select(
+    country,
+    iso, 
+    region
+  ) %>%
+  st_transform("EPSG:4326")
 
+map %>%
+  write_rds(
+    here(
+      "Dashboard",
+      "data",
+      "map.rds"
+    )
+  )
 
+centroids <-
+  map %>%
+  st_transform("+proj=robin") %>%
+  st_centroid() %>%
+  st_transform("EPSG:4326")
+
+centroids %>%
+  write_rds(
+    here(
+      "Dashboard",
+      "data",
+      "centroids.rds"
+    )
+  )
