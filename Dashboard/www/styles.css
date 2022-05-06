@@ -1,0 +1,65 @@
+#info_map {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-right: 10px;
+          background-color: #1995dc;
+          font-size: 12px;
+          color: #ffffff;
+          font-weight: bold;
+          text-align: center;
+      }
+      
+#filter_table {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+          background-color: white;
+      }
+      
+hr {
+  border-top: 1px solid #d2e7fa;
+  }
+  
+      
+#back_table {
+  border-color: #2fa4e7;
+  color: #ffffff;
+  background: #2fa4e7;
+  font-size: 12px;
+}
+
+#title {
+  border: 2px solid #1995dc;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  background-color: #1995dc;
+  font-weight: bold;
+  text-align: center;
+}
+
+#title h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+#about {
+  background-color: #edf4ff;
+  font-size: 14px;
+  color: #000000;
+  text-align: justify;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+}
+
+#graph {
+
+}

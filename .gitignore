@@ -92,11 +92,11 @@
 # project, but we strongly recommend that you only include these files in
 # a subset of the folders where you are certain no private data is ever stored.
 !/**/Output/**/*.txt
-!/**/Output/**/*.csv
+#!/**/Output/**/*.csv
 !/**/Output/**/*.xml
 !/**/Output/**/*.eps
 !/**/Output/**/*.svg
-!/**/Output/**/*.rds
+#!/**/Output/**/*.rds
 
 #######################
 # Include all the files with passwords or tokens here. All files named
