@@ -67,4 +67,57 @@ server <- function(input, output) {
         label = ~paste(country, "\n", n_projects, "projects")
       )
     })
+    
+    
+    # map_plot %>%
+    #   ggplotly(tooltip = "text") %>%
+    #   layout(
+    #     legend = list(
+    #       title = list(text = '<b>Region Name:</b>'),
+    #       y = 0.5
+    #     ),
+    #     margin = list(t = 50, b = 110),
+    #     xaxis = list(visible = FALSE),
+    #     yaxis = list(visible = FALSE),
+    #     annotations =
+    #       list(x = 0,
+    #            y = -0.2,
+    #            text = HTML(
+    #              paste(
+    #                str_wrap(
+    #                  "<b>Disclaimer:</b> Country borders or names do not necessarily reflect the World Bank Group's official position.
+    #                  This map is for illustrative purposes and does not imply the expression of any opinion on the part of the World Bank,
+    #                  concerning the legal status of any country or territory or concerning the delimitation of frontiers or boundaries.",
+    #                  175
+    #                ),
+    #                str_wrap(
+    #                  paste(
+    #                    "<b>Source:</b>",
+    #                    "PEI's Survey of Ongoing Economic Inclusion Impact Evaluations"
+    #                  ),
+    #                  175
+    #                ),
+    #                sep = "<br>"
+    #              )
+    #            ),
+    #            showarrow = F,
+    #            xref = 'paper',
+    #            yref = 'paper',
+    #            align = 'left',
+    #            font = list(size = 10)
+    #       )
+    #   ) %>%
+    #   config(
+    #     displaylogo = FALSE,
+    #     modeBarButtonsToRemove = c("hoverClosestCartesian", "hoverCompareCartesian", "zoom2d", "pan2d"),
+    #     toImageButtonOptions = list(
+    #       filename = "nb_program_region_map",
+    #       width = 1050,
+    #       height =  675
+    #     )
+    #   )
+    
+  # })
+  
+  
 }
