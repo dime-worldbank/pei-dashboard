@@ -6,7 +6,6 @@ To date, the scale up of economic inclusion programs builds on a [promising evid
 
 This dashboard summarizes planned and ongoing impact evaluations studies related to economic inclusion programs, and how they map to the PEI IE Collaborative's priority evidence gaps to inform the scaling-up of economic inclusion programs. The objective of this dashboard is to allow the PEI IE Collaborative and its technical partners to identify sources of potential future evidence, and thus bridge the knowledge gap between published results/evidence and ongoing/planned rigorous studies. Thus, it supports the production of knowledge public goods and tools based on ongoing and completed evaluations, which is one of the Collaborative's goals.
 
-#### Thematic priorities
 
 
 

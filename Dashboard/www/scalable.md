@@ -1,1 +1,1 @@
-3. How do alternative delivery modalities that enhance scalability affect program impact and cost-effectiveness? (low-cost vs. high-cost; low-intensity vs. high-intensity; digital vs. face-to-face; individual vs. group-based; NGO vs. government etc.)  
+**3** How do alternative delivery modalities that enhance scalability affect program impact and cost-effectiveness?

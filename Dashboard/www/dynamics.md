@@ -1,0 +1,1 @@
+**4** How do impacts vary over time?  Are they sustained in the short to long-term? How does it affect cost-benefit analysis?

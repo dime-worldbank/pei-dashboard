@@ -202,7 +202,9 @@ data <-
   select(
     KEY,
     total_beneficiary,
-    learning_priority
+    learning_priority,
+    ie_name,
+    ie_summary
   ) %>%
   left_join(labeled) %>%
   left_join(pi_affiliation_project)
@@ -215,6 +217,88 @@ data %>%
       "projects.rds"
     )
   )
+
+### Learning priorities --------------------------------------------------------
+
+learning <-
+  data %>%
+  select(
+    KEY,
+    learning_priority
+  ) %>%
+  separate(
+    learning_priority,
+    into = paste0("learning", c(1:length(learning_priority_lab)))
+  ) %>%
+  pivot_longer(
+    cols = starts_with("learning"),
+    names_prefix = "learning",
+    names_to = "count",
+    values_to = "priority"
+  ) %>%
+  filter(!is.na(priority)) %>%
+  left_join(
+    tibble(
+      priority = names(learning_priority_lab),
+      name = paste(
+        names(learning_priority_lab),
+        learning_priority_lab
+      )
+    )
+  ) %>%
+  transmute(
+    KEY = KEY,
+    priority = as.numeric(priority),
+    name = fct_reorder(
+      name,
+     -priority
+    )
+  )
+
+learning %>%
+  write_rds(
+    here(
+      "Dashboard",
+      "data",
+      "priorities.rds"
+    )
+  )
+
+### Targeting --------------------------------------------------------
+
+targeting <-
+  data %>%
+  select(
+    KEY,
+    priority_group
+  ) %>%
+  separate(
+    priority_group,
+    sep = "<br>",
+    into = paste0(
+      "target", 
+      c(1:length(priority_group_lab))
+    )
+  ) %>%
+  pivot_longer(
+    cols = starts_with("target"),
+    names_prefix = "target",
+    names_to = "count",
+    values_to = "target"
+  ) %>%
+  filter(!is.na(target)) %>%
+  select(-count) 
+
+targeting %>%
+  write_rds(
+    here(
+      "Dashboard",
+      "data",
+      "targeting.rds"
+    )
+  )
+
+# Pr
 
 # Process geospatial data ------------------------------------------------------
 
