@@ -3,35 +3,52 @@
 library(shiny)
 library(shinydashboard)
 library(shinythemes)
-library(tidyverse)
-library(DT)
-library(here)
+library(shinydashboard)
+library(shinythemes)
 library(shinyWidgets)
-library(dplyr)
 library(shinyjs)
-library(sf)
+library(shinyBS)
+library(shinyhelper)
+
+library(tidyverse)
 library(ggplot2)
+library(sf)
+
+library(DT)
 library(plotly)
-library(leaflet.extras)
 library(leaflet)
+library(leaflet.extras)
 
 # Options ----------------------------------------------------------------------
+
+categorical_colors <-
+  c(
+    "#18BC9C",
+    "#2C3E50",
+    "#F39C12",
+    "#E74C3C",
+    "#3498DB",
+    "#18BC9C",
+    "#2C3E50",
+    "#F39C12"
+  )
 
 # Survey options ---------------------------------------------------------------
 
 source(
-  here(
-    "Dashboard",
+  file.path(
     "auxiliary",
     "define_labels.R"
   )
 )
 
 for (object in ls()) {
-  assign(
-    object,
-    object %>% get %>% unname
-  )
+  if (object != "column_list") {
+    assign(
+      object,
+      object %>% get %>% unname
+    )
+  }
 }
 
 # Load data --------------------------------------------------------------------
@@ -78,6 +95,22 @@ projects_country <-
     file.path(
       "data",
       "projects-country.rds"
+    )
+  )
+
+priorities <-
+  read_rds(
+    file.path(
+      "data",
+      "priorities.rds"
+    )
+  )
+
+targeting <-
+  read_rds(
+    file.path(
+      "data",
+      "targeting.rds"
     )
   )
 
@@ -144,3 +177,11 @@ strs_detect_any <-
            string = x) %>%
       any
   }
+
+shinyInput <- function(FUN, len, ...) {
+  inputs <- character(len)
+  for (i in seq_len(len)) {
+    inputs[i] <- as.character(FUN(i, ...))
+  }
+  inputs
+}

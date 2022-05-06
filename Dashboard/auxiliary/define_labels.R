@@ -63,18 +63,18 @@ ie_method_lab <-
 
 learning_priority_lab <-
   c(
+    "10" = "Adapting programs to fragile contexts",
+    "11" = "Effects on resilience and mechanisms",
+    "12" = "Other",
     "1"  = "Cost-effectiveness of large-scale government-led programs",
     "2"  = "Spillovers and general equilibrium effects",
-    "3"  = "Effects on impact and cost-effectiveness",
+    "3"  = "Scalability, impact and cost-effectiveness",
     "4"  = "How impacts vary over time",
     "5"  = "Optimal bundle/marginal contribution of bundled interventions",
     "6"  = "Timing, sequencing, and intensity of bundled interventions",
     "7"  = "Cost-effectiveness across population groups",
     "8"  = "Increasing cost-effectiveness for sub-groups",
-    "9"  = "External validity: adapting to urban contexts",
-    "10" = "External validity: adapting to fragile contexts",
-    "11" = "Effects on resilience and mechanisms",
-    "12" = "Other"
+    "9"  = "Adapting programs to urban contexts"
   )
 
 lead_lab <-
@@ -95,3 +95,20 @@ cluster_lab <-
     "1" = "Clustered",
     "2" = "Not clustered"
   )
+
+column_list <- 
+  c(
+    "Title" = "ie_name",
+    "Country" = "country",
+#    "Research Team" = "research_team",
+    "Summary" = "ie_summary", 
+#    "Research questions" = "research_questions",
+    "Geographic coverage" = "geo_cov", 
+    "Area" = "area", 
+    "Target method" = "target_method", 
+    "Poverty segment" = "pov_seg", 
+    "Priority population" = "priority_group",
+    "Identification strategy" = "ie_method",
+    "PEI learning priority" = "learning_priority",
+    "PI affiliation" = "pi_affiliation"
+)
