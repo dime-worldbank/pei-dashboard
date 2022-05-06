@@ -3,7 +3,7 @@ ui <- fluidPage(
 # Header -----------------------------------------------------------------------
   
   navbarPage(
-    "IE Collaborative Dashboard",
+    "PEI IE Collaborative",
     theme = shinytheme("flatly"),
     id = "main",
     collapsible = TRUE, 
@@ -15,7 +15,67 @@ ui <- fluidPage(
 # Home page --------------------------------------------------------------------
 
     tabPanel(
-      "Home"
+      title = "Home",
+      
+      fluidRow(
+        column(width = 1),
+        
+        column(
+          width = 10,
+          h1("Welcome to PEI IE Collaborative Dashboard")
+        )
+      ),
+      
+      fluidRow(
+        column(width = 1),
+        
+        column(
+          width = 7,
+          includeMarkdown("www/aboutpei.md")
+        ),
+        
+        column(
+          width = 3,
+          uiOutput("n_ies"),
+          uiOutput("n_countries") 
+        )
+      ),
+      
+      fluidRow(
+        column(width = 1),
+        
+        column(
+          width = 5,
+          
+          box(
+            title = "Effectiveness at scale",
+            includeMarkdown("www/scale.md")
+          ),
+          
+          box(
+            title = '"Scalable" delivery modalities',
+            includeMarkdown("www/scalable.md")
+          )
+        ),
+        
+        column(
+          width = 5,
+          status = "info",
+          title = "Share of learning priorities", 
+          plotOutput(
+            "learning_priority_bar", 
+            height = "40vh"
+          )
+        )
+      ),
+      
+      fluidRow(
+        column(width = 1),
+        column(
+          width = 10,
+          includeMarkdown("www/footer.md")
+        )
+      )
     ),
 
 # Map page ---------------------------------------------------------------------
@@ -86,6 +146,13 @@ ui <- fluidPage(
            )
          )
        ),
+       
+       ## Number of projects ---------------------------------------------------
+       
+       fluidRow(
+         id = "info_map",
+         textOutput("n_projects")
+       ),
         
        ## Map ------------------------------------------------------------------
        
@@ -102,10 +169,14 @@ ui <- fluidPage(
          )
        ),
        
-       ## Number of projects ---------------------------------------------------
+       ## Footer ---------------------------------------------------------------
+       
        fluidRow(
-         id = "info_map",
-         textOutput("n_projects")
+         column(width = 1),
+         column(
+           width = 10,
+           includeMarkdown("www/footer.md")
+         )
        )
      ) # closes main box for page
    ) # Map Tab Panel closing
