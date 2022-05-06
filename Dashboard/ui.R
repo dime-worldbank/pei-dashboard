@@ -173,92 +173,75 @@ ui <- fluidPage(
      column(
        width = 10,
        
-       ## Filters -------------------------------------------------------------
        fluidRow(
          
-         box(
-           width = 12,
-           title = NULL,
-           solidHeader = TRUE,
-           status = "success",
+         ## Filters -------------------------------------------------------------
+         column(
+           width = 3,
            
-           ### Identification strategy -------------------------------------------
-           column(
-             width = 3,
+           box(
+             width = 12,
+             title = NULL,
+             
+             ### Identification strategy -------------------------------------------
              pickerInput(
                inputId = "map_method",
-               label = "Impact evaluation identification strategy:",
+               label = "Identification strategy",
                choices = ie_method_lab,
                selected = ie_method_lab,
                options = list(`actions-box` = TRUE),
                multiple = TRUE
-             )
-           ),
-           
-           ### PEI learning priority ---------------------------------------------
-           column(
-             width = 3,
+             ),
+             
+             ### PEI learning priority ---------------------------------------------
              pickerInput(
                inputId = "map_learning",
-               label = "Impact evaluation learning priority:",
+               label = "Learning priority",
                choices = learning_priority,
                selected = c(1:12) %>% as.character,
                options = list(`actions-box` = TRUE),
                multiple = TRUE
-             )
-           ),
-           
-           ### PI Affiliation ----------------------------------------------------
-           column(
-             width = 3,
+             ),
+             
+             ### PI Affiliation ----------------------------------------------------
              pickerInput(
                inputId = "map_affiliation",
-               label = "Principal Investigator's affiliation:",
+               label = "Principal investigator's affiliation",
                choices = pi_affiliation_lab,
                selected = pi_affiliation_lab,
                options = list(`actions-box` = TRUE),
                multiple = TRUE
-             )
-           ),
-           
-           ### Priority Group ---------------------------------------------------
-           column(
-             width = 3,
+             ),
+             
+             ### Priority Group ---------------------------------------------------
              pickerInput(
                inputId = "map_target",
-               label = "Priority population groups targeted:",
+               label = "Priority groups targeted",
                choices = priority_group_lab,
                selected = priority_group_lab,
                options = list(`actions-box` = TRUE),
                multiple = TRUE
              )
            )
+         ),
+         
+         column(
+           width = 9,
            
-         )
-       ),
-       
-       ## Number of projects ---------------------------------------------------
-       
-       fluidRow(
-         id = "info_map",
-         textOutput("n_projects")
-       ),
-        
-       ## Map ------------------------------------------------------------------
-
-       fluidRow(
-         box(
-           width = 12,
-           collapsible = FALSE,
+           valueBox(
+             width = 12,
+             subtitle = "impact evaluations selected",
+             value = textOutput("n_projects"),
+             color = "light-blue"
+           ),
            
            leafletOutput(
              "map",
-             width = "100%",
-             height = "600px"
+             height = "700px"
            )
          )
        ),
-
+        
        ## Footer ---------------------------------------------------------------
 
        fluidRow(
