@@ -26,11 +26,14 @@ server <- function(input, output) {
     )
     
   # Information Box: Number of project ------
-  output$projectcount <- 
+
+  output$n_projects <- 
     renderText({
-      nb <- selected_projects() %>%
-        nrow()
-      paste0("Number of projects: ", nb)
+      paste0(
+        "Number of projects: ",
+          selected_projects() %>%
+            nrow()
+      )
     })
   
   # Map Plot -----
@@ -48,10 +51,7 @@ server <- function(input, output) {
       projects_location <-
         centroids %>%
         inner_join(projects_location)
-
-    # Send a notification to the user
-    showNotification("Ploting the map... Please wait.", type = "message", duration = 3)
-
+      
     # Interactive map
     
     leaflet() %>%

@@ -1,54 +1,55 @@
-ui <- navbarPage(
+ui <- fluidPage(
   
-  id = "intabset",
-   
 # Header -----------------------------------------------------------------------
-
-   title = "IE Collaborative Dashboard", # Navigation bar
-   theme = shinytheme("cerulean"), #Theme of the app (blue navbar)
-   collapsible = TRUE, #tab panels collapse into menu in small screens
-   header = tags$head(
-     includeCSS("www/styles.css"),
-     HTML("<html lang='en'>")
-   ),
-
+  
+  navbarPage(
+    "IE Collaborative Dashboard",
+    theme = shinytheme("flatly"),
+    id = "main",
+    collapsible = TRUE, 
+    header = tags$head(
+      includeCSS("www/styles.css"),
+      HTML("<html lang='en'>")
+    ),
 
 # Home page --------------------------------------------------------------------
 
-  tabPanel(
-    title = "Home", 
-    icon = icon("home")
-  ),
+    tabPanel(
+      "Home"
+    ),
 
 # Map page ---------------------------------------------------------------------
 
    tabPanel(
      
      title = "World map",
-     icon = icon("map-location-dot"),
+
+     column(width = 1), # Just to have some margin. Should fix this with the container later
      
-     fluidPage(
-       
-       # Sidebar layout with inputs
-       sidebarLayout(
+     box(
+       width = 10,
+       title = NULL,
+       collapsible = FALSE,
          
-         # Sidebar panel for inputs
-         sidebarPanel(
-           
+       ## Filters -------------------------------------------------------------
+       fluidRow(
+         
+         ### Identification strategy -------------------------------------------
+         column(
            width = 3,
-           h3(paste("Filters")), #Title
-           
-           # First input: Identification strategy
            pickerInput(
              inputId = "method",
              label = "Impact evaluation identification strategy:",
              choices = ie_method_lab,
              selected = ie_method_lab,
-             options = list(`actions-box` = TRUE), 
+             options = list(`actions-box` = TRUE),
              multiple = TRUE
-            ),
-           
-           # Second input: PEI Learning Priority
+           )
+         ),
+         
+         ### PEI learning priority ---------------------------------------------
+         column(
+           width = 3,
            pickerInput(
              inputId = "learning",
              label = "Impact evaluation learning priority:",
@@ -56,9 +57,12 @@ ui <- navbarPage(
              selected = c(1:12) %>% as.character,
              options = list(`actions-box` = TRUE),
              multiple = TRUE
-           ),
-           
-           # Third input: PI Affiliation (rendered from the server: text variable)
+           )
+         ),
+         
+         ### PI Affiliation ----------------------------------------------------
+         column(
+           width = 3,
            pickerInput(
              inputId = "affiliation",
              label = "Principal Investigator's affiliation:",
@@ -66,45 +70,45 @@ ui <- navbarPage(
              selected = pi_affiliation_lab,
              options = list(`actions-box` = TRUE),
              multiple = TRUE
-           ),
-           
-           # Fourth input: Priority Group
+           )
+         ),
+         
+         ### Priority Group ---------------------------------------------------
+         column(
+           width = 3,
            pickerInput(
              inputId = "target",
-             label = "Priority population groups that the program targets:",
+             label = "Priority population groups targeted:",
              choices = priority_group_lab,
              selected = priority_group_lab,
              options = list(`actions-box` = TRUE),
              multiple = TRUE
-            )
-           
-         ), # Sidebarpanel bracket
-         
-         # Main panel for displaying outputs
-         mainPanel(
-           
-           width = 9,
-           
-           fluidRow(
-             box(
-               width = 12,
-               leafletOutput(
-                 "map",
-                 width = "100%",
-                 height = "800px"
-               )
-             )
-           ),
-           
-           fluidRow(
-             id = "info_map",
-             textOutput("projectcount")
            )
-
-         ) # Main panel bracket
-         
-       ) # Sidebarlayout bracket
-     ) # Fluid page bracket
-   ) # Home Tab Panel Bracket
-)# Navbar bracket
+         )
+       ),
+        
+       ## Map ------------------------------------------------------------------
+       
+       fluidRow(
+         box(
+           width = 12,
+           collapsible = FALSE,
+           
+           leafletOutput(
+             "map",
+             width = "100%",
+             height = "700px"
+           )
+         )
+       ),
+       
+       ## Number of projects ---------------------------------------------------
+       fluidRow(
+         id = "info_map",
+         textOutput("n_projects")
+       )
+     ) # closes main box for page
+   ) # Map Tab Panel closing
+  ) # Navbarpage closing
+) # UI closing
 
