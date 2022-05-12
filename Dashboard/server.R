@@ -67,33 +67,75 @@ server <- function(input, output) {
 
   ## Map Plot ------------------------------------------------------------------
   output$map <-
-    renderLeaflet({
+    renderPlotly({
 
       projects_location <-
         map_projects() %>%
           select(-country) %>%
           left_join(projects_country) %>%
           group_by(iso) %>%
-          summarise(n_projects = n())
+          summarise(n_projects = n()) 
 
       projects_location <-
         centroids %>%
-        inner_join(projects_location)
-
-    # Interactive map
-
-    leaflet() %>%
-      addPolygons(
-        data = map,
-        color = ~pal(region),
-        fillOpacity = 1
-      ) %>%
-      setMapWidgetStyle(list(background= "white")) %>%
-      addAwesomeMarkers(
-        data = projects_location,
-        icon = icons,
-        label = ~paste(country, "\n", n_projects, "projects")
+        inner_join(projects_location) %>%
+        mutate(label = paste(country, "\n", n_projects, "project(s)"))
+      
+      source(
+        file.path(
+          "auxiliary",
+          "maps.R"
+        )
       )
+      
+      map <-
+        world_map +
+        geom_sf(
+          data = projects_location,
+          aes(text = label),
+          size = 3,
+          color = "red"
+        )
+ 
+      map %>%
+        ggplotly(tooltip = "text") %>%
+        layout(
+          legend = list(
+            title = list(text = '<b>Region Name:</b>'),
+            y = 0.5
+          ),
+          margin = list(t = 50, b = 110),
+          xaxis = list(visible = FALSE),
+          yaxis = list(visible = FALSE),
+          annotations =
+            list(x = 0,
+                 y = -0.2,
+                 text = HTML(
+                   paste(
+                     str_wrap(
+                       "<b>Disclaimer:</b> Country borders or names do not necessarily reflect the World Bank Group's official position.
+                     This map is for illustrative purposes and does not imply the expression of any opinion on the part of the World Bank,
+                     concerning the legal status of any country or territory or concerning the delimitation of frontiers or boundaries.",
+                       175
+                     ),
+                     str_wrap(
+                       paste(
+                         "<b>Source:</b>",
+                         "PEI's Survey of Ongoing Economic Inclusion Impact Evaluations"
+                       ),
+                       175
+                     ),
+                     sep = "<br>"
+                   )
+                 ),
+                 showarrow = F,
+                 xref = 'paper',
+                 yref = 'paper',
+                 align = 'left',
+                 font = list(size = 10)
+            )
+        )
+
     })
   
   # Table page ----------------------------------------------------------------
@@ -159,7 +201,7 @@ server <- function(input, output) {
       
       pickerInput(
         inputId = "table_region",
-        label =  "Region", 
+        label =  "Country", 
         choices = countries,
         selected = countries,
         multiple = TRUE,

@@ -18,7 +18,6 @@
           name = NULL,
           values = region_colors
         ) +
-      labs(title = paste0("<b>", "Distribution of number of programs per region", "</b>")) +
       theme_void() +
       theme(
         legend.position = "none"

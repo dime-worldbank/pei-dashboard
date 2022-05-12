@@ -228,13 +228,15 @@ ui <- fluidPage(
          column(
            width = 9,
            
-           valueBox(
-             width = 12,
-             subtitle = "impact evaluations selected",
-             value = textOutput("n_projects"),
-             color = "light-blue"
+           fluidRow(
+             valueBox(
+               width = 12,
+               subtitle = "impact evaluations selected",
+               value = textOutput("n_projects"),
+               color = "light-blue"
+             )
            ),
-           
+
            plotlyOutput(
              "map",
              height = "700px"
