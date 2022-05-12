@@ -16,8 +16,6 @@ library(sf)
 
 library(DT)
 library(plotly)
-library(leaflet)
-library(leaflet.extras)
 
 # Options ----------------------------------------------------------------------
 
@@ -156,17 +154,6 @@ region_colors <-
     "#6d9e7d",
     "#dbcd60"
   )
-
-icons <- awesomeIcons(
-  icon = 'circle-dot',
-  iconColor = 'black',
-  library = 'ion',
-  markerColor = "#808080"
-)
-
-pal <- colorFactor(
-  palette = region_colors,
-  domain = map$region)
 
 # Functions --------------------------------------------------------------------
 

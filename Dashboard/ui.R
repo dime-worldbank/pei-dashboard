@@ -140,18 +140,18 @@ ui <- fluidPage(
                 title = "Resilience and shock-responsiveness",
                 includeMarkdown("www/resilience.md")
               )
-            ),
+            )#,
           
             ### Graph ----------------------------------------------------------
-            column(
-              width = 4,
-              status = "info",
-              title = "Share of learning priorities", 
-              
-              plotOutput(
-                "learning_priority_bar"
-              )
-            )
+            # column(
+            #   width = 4,
+            #   status = "info",
+            #   title = "Share of learning priorities", 
+            #   
+            #   plotOutput(
+            #     "learning_priority_bar"
+            #   )
+            # )
           ),
             
           ## Footer ------------------------------------------------------------
@@ -235,7 +235,7 @@ ui <- fluidPage(
              color = "light-blue"
            ),
            
-           leafletOutput(
+           plotlyOutput(
              "map",
              height = "700px"
            )
