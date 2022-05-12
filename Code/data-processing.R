@@ -308,25 +308,25 @@ targeting %>%
     )
   )
 
-# Pr
-
 # Process geospatial data ------------------------------------------------------
 
 map <- 
-  read_rds(
+  st_read(
     here(
-      "Data",
+      "data",
       "raw",
-      "wb_country_geom.rds"
+      "Data_50mil_Revised_20201116",
+      "ne_50m_WB2019_admin_0_countries.shp"
     )
   ) %>%
-  right_join(countries) %>%
+  rename(iso = WB_ISO) %>%
+  inner_join(countries) %>%
   select(
     country,
     iso, 
     region
   ) %>%
-  st_transform("EPSG:4326")
+  st_transform("+proj=robin")
 
 map %>%
   write_rds(
@@ -339,9 +339,7 @@ map %>%
 
 centroids <-
   map %>%
-  st_transform("+proj=robin") %>%
-  st_centroid() %>%
-  st_transform("EPSG:4326")
+  st_centroid()
 
 centroids %>%
   write_rds(
@@ -351,3 +349,5 @@ centroids %>%
       "centroids.rds"
     )
   )
+
+
