@@ -27,11 +27,21 @@ countries <-
 
 ## Load data -------------------------------------------------------------------
 
-country_lab <-
-  countries$country
+country_lab_prep <-
+  countries %>%
+  transmute(
+    country = country,
+    country_code = as.numeric(country_code)
+  ) %>%
+  arrange(
+    -country_code
+  )
 
+country_lab <-
+  country_lab_prep$country
 names(country_lab) <-
-  countries$country_code
+  country_lab_prep$country_code
+
 
 # Load the raw survey data
 raw <- 
