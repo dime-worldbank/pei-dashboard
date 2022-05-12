@@ -1,4 +1,4 @@
-#### About us
+#### About
 
 To date, the scale up of economic inclusion programs builds on a <a href="https://openknowledge.worldbank.org/handle/10986/34917" target="_blank"> promising evidence base </a>. However, there are still critical gaps in understanding the mechanisms and drivers of impact and cost-effectiveness especially for large-scale government-led programs. The World Bank's
 <a href="https://www.peiglobal.org/sites/pei/files/2020-10/pei%20annual%20report%202020-HR.pdf" target="_blank"> Partnership for Economic Inclusion </a> (PEI) and 
