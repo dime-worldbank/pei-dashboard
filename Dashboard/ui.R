@@ -140,18 +140,18 @@ ui <- fluidPage(
                 title = "Resilience and shock-responsiveness",
                 includeMarkdown("www/resilience.md")
               )
-            )#,
+            ),
           
             ### Graph ----------------------------------------------------------
-            # column(
-            #   width = 4,
-            #   status = "info",
-            #   title = "Share of learning priorities", 
-            #   
-            #   plotOutput(
-            #     "learning_priority_bar"
-            #   )
-            # )
+            column(
+              width = 4,
+              status = "info",
+              title = "Share of learning priorities",
+
+              plotOutput(
+                "learning_priority_bar"
+              )
+            )
           ),
             
           ## Footer ------------------------------------------------------------
@@ -181,7 +181,7 @@ ui <- fluidPage(
            
            box(
              width = 12,
-             title = NULL,
+             title = h3("Filter impact evaluations"),
              
              ### Identification strategy -------------------------------------------
              pickerInput(
@@ -221,6 +221,15 @@ ui <- fluidPage(
                selected = priority_group_lab,
                options = list(`actions-box` = TRUE),
                multiple = TRUE
+             ),
+             
+             fluidRow(
+               valueBox(
+                 width = 12,
+                 subtitle = "impact evaluations selected",
+                 value = textOutput("n_projects"),
+                 color = "light-blue"
+               )
              )
            )
          ),
@@ -228,14 +237,7 @@ ui <- fluidPage(
          column(
            width = 9,
            
-           fluidRow(
-             valueBox(
-               width = 12,
-               subtitle = "impact evaluations selected",
-               value = textOutput("n_projects"),
-               color = "light-blue"
-             )
-           ),
+           h2("IE Collaborative Impact Evaluations"),
 
            plotlyOutput(
              "map",
