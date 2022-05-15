@@ -162,7 +162,7 @@ strs_detect_any <-
     sapply(y, 
            str_detect, 
            string = x) %>%
-      any
+      rowSums() > 0
   }
 
 shinyInput <- function(FUN, len, ...) {
