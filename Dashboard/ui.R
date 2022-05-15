@@ -269,14 +269,46 @@ ui <- fluidPage(
             box(
               width = 12,
               
+              h3("Information to display"),
+              
               uiOutput("table_vars"),
-              uiOutput("table_region"),
-              uiOutput("table_country"),
+              
+              h3("Filter interventions"),
+              
+              pickerInput(
+                inputId = "table_region",
+                label =  "Region", 
+                choices = projects_country %>% pull(region) %>% unique,
+                selected = projects_country %>% pull(region) %>% unique,
+                multiple = TRUE,
+                options = list(`actions-box` = TRUE)
+              ),
+              
+              pickerInput(
+                inputId = "table_country",
+                label =  "Country", 
+                choices = projects_country %>% pull(country) %>% unique,
+                selected = projects_country %>% pull(country) %>% unique,
+                multiple = TRUE,
+                options = list(`actions-box` = TRUE)
+              ),
+              
+              ### Priority Group ---------------------------------------------------
+              pickerInput(
+                inputId = "table_target",
+                label = "Priority population groups targeted",
+                choices = priority_group_lab,
+                selected = priority_group_lab,
+                options = list(`actions-box` = TRUE),
+                multiple = TRUE
+              ),
+              
+              h3("Filter impact evaluations"),
               
               ### Identification strategy -------------------------------------------
               pickerInput(
                 inputId = "table_method",
-                label = "Impact evaluation identification strategy:",
+                label = "Impact evaluation identification strategy",
                 choices = ie_method_lab,
                 selected = ie_method_lab,
                 options = list(`actions-box` = TRUE),
@@ -286,7 +318,7 @@ ui <- fluidPage(
               ### PEI learning priority ---------------------------------------------
               pickerInput(
                 inputId = "table_learning",
-                label = "Impact evaluation learning priority:",
+                label = "Impact evaluation learning priority",
                 choices = learning_priority,
                 selected = c(1:12) %>% as.character,
                 options = list(`actions-box` = TRUE),
@@ -296,19 +328,9 @@ ui <- fluidPage(
               ### PI Affiliation ----------------------------------------------------
               pickerInput(
                 inputId = "table_affiliation",
-                label = "Principal Investigator's affiliation:",
+                label = "Principal Investigator's affiliation",
                 choices = pi_affiliation_lab,
                 selected = pi_affiliation_lab,
-                options = list(`actions-box` = TRUE),
-                multiple = TRUE
-              ),
-              
-              ### Priority Group ---------------------------------------------------
-              pickerInput(
-                inputId = "table_target",
-                label = "Priority population groups targeted:",
-                choices = priority_group_lab,
-                selected = priority_group_lab,
                 options = list(`actions-box` = TRUE),
                 multiple = TRUE
               )

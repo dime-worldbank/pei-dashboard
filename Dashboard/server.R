@@ -1,4 +1,4 @@
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   
   # Home Page-------------------------------------------------------------------
@@ -62,7 +62,8 @@ server <- function(input, output) {
   ## Information Box: Number of projects ----------------------------------------
   output$n_projects <-
     renderText({
-      map_projects() %>%nrow()
+      map_projects() %>%
+        nrow()
     })
 
   ## Map Plot ------------------------------------------------------------------
@@ -169,47 +170,25 @@ server <- function(input, output) {
         )
     })
   
-  ### Region -------------------------------------------------------------------
-  output$table_region <- 
+  observeEvent(
+    input$table_region,
     
-    renderUI({
-      
-      regions <- 
-        projects_country %>% 
-        pull(region) %>% 
-        unique
-      
-      pickerInput(
-        inputId = "table_region",
-        label =  "Region", 
-        choices = regions,
-        selected = regions,
-        multiple = TRUE,
-        options = list(`actions-box` = TRUE)
-    ) 
-  })
-  
-  ### Country -------------------------------------------------------------------
-  output$table_country <- 
-    
-    renderUI({
-      
+    {
       countries <- 
         projects_country %>% 
+        filter(region %in% input$table_region) %>%
         pull(country) %>% 
         unique
       
-      pickerInput(
-        inputId = "table_region",
-        label =  "Country", 
-        choices = countries,
-        selected = countries,
-        multiple = TRUE,
-        options = list(`actions-box` = TRUE)
-      ) 
-    })
+      updatePickerInput(
+        session = session,
+        "table_country",
+        selected = countries
+      )
+        
+    }
+  )
   
-  ## Actual table --------------------------------------------------------------
   output$table <- 
     renderDataTable(
       {
@@ -218,8 +197,8 @@ server <- function(input, output) {
             strs_detect_any(ie_method, input$table_method),
             strs_detect_any(learning_priority, input$table_learning),
             strs_detect_any(pi_affiliation, input$table_affiliation),
-            strs_detect_any(priority_group, input$table_target)
-            #strs_detect_any(country, input$table_country)
+            strs_detect_any(priority_group, input$table_target),
+            strs_detect_any(country, input$table_country)
           ) %>%
           rename(column_list) %>%
           select(all_of(input$table_vars)) #%>%
@@ -239,7 +218,9 @@ server <- function(input, output) {
       options = list(
         pageLength = 15,
         lengthMenu = c(10, 20, 50, 100),
-        autoWidth = TRUE),
+        autoWidth = TRUE,
+        scrollX = TRUE,
+        scroller = TRUE),
       rownames = FALSE,
       server = FALSE
         
