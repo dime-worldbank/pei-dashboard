@@ -1,1 +1,1 @@
-**11**	Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?
+- Do economic inclusion programs improve households' resilience to (climate, conflict, or economic) shocks? How?
