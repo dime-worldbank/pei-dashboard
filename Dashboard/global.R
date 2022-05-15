@@ -172,3 +172,7 @@ shinyInput <- function(FUN, len, ...) {
   }
   inputs
 }
+
+
+st_crs(map) <- "+proj=robin"
+st_crs(centroids) <- "+proj=robin"
