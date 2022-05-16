@@ -49,13 +49,36 @@ server <- function(input, output, session) {
       ),
 
       {
-        project_data %>%
-          filter(
-            strs_detect_any(ie_method, input$map_method),
-            strs_detect_any(learning_priority, input$map_learning),
-            strs_detect_any(pi_affiliation, input$map_affiliation),
-            strs_detect_any(priority_group, input$map_target)
-          )
+      
+        data <- 
+          project_data 
+
+        if (!(is.null(input$map_method))) {
+          data <-
+            data %>%
+            filter(strs_detect_any(ie_method, input$map_method))
+        }
+
+        if (!(is.null(input$map_learning))) {
+          data <-
+            data %>%
+            filter(strs_detect_any(learning_priority, input$map_learning))
+
+        }
+        
+        if (!(is.null(input$map_target))) {
+          data <-
+            data %>%
+            filter(strs_detect_any(priority_group, input$map_target))
+        }
+        
+        if (!(is.null(input$map_affiliation))) {
+          data <-
+            data %>%
+            filter(strs_detect_any(pi_affiliation, input$map_affiliation))
+        }
+
+        return(data)
       }
     )
 
@@ -89,16 +112,18 @@ server <- function(input, output, session) {
         )
       )
       
-      map <-
-        world_map +
-        geom_sf(
-          data = projects_location,
-          aes(text = label),
-          size = 3,
-          color = "red"
-        )
+      if (nrow(projects_location) > 0) {
+        world_map <-
+          world_map +
+          geom_sf(
+            data = projects_location,
+            aes(text = label),
+            size = 3,
+            color = "red"
+          )
+      }
  
-      map %>%
+      world_map %>%
         ggplotly(tooltip = "text") %>%
         layout(
           legend = list(
@@ -169,6 +194,8 @@ server <- function(input, output, session) {
           size = "s"
         )
     })
+
+  ## Actual table --------------------------------------------------------------
   
   observeEvent(
     input$table_region,
@@ -192,16 +219,42 @@ server <- function(input, output, session) {
   output$table <- 
     renderDataTable(
       {
-        project_data %>%
-          filter(
-            strs_detect_any(ie_method, input$table_method),
-            strs_detect_any(learning_priority, input$table_learning),
-            strs_detect_any(pi_affiliation, input$table_affiliation),
-            strs_detect_any(priority_group, input$table_target),
-            strs_detect_any(country, input$table_country)
-          ) %>%
-          rename(column_list) %>%
-          select(all_of(input$table_vars)) #%>%
+        table <-
+          project_data 
+        
+        if (!(is.null(input$table_method))) {
+          table <-
+            table %>%
+            filter(strs_detect_any(ie_method, input$table_method))
+        }
+        
+        if (!(is.null(input$table_learning))) {
+          table <-
+            table %>%
+            filter(strs_detect_any(learning_priority, input$table_learning))
+        }
+        
+        if (!(is.null(input$table_affiliation))) {
+          table <-
+            table %>%
+            filter(strs_detect_any(pi_affiliation, input$table_affiliation))
+        }
+        
+        if (!(is.null(input$table_country))) {
+          table <-
+            table %>%
+            filter(strs_detect_any(country, input$table_country))
+        }
+        
+        if (!(is.null(input$table_target))) {
+          table <-
+            table %>%
+            filter(strs_detect_any(priority_group, input$table_target))
+        }
+        
+       table %>%
+         rename(column_list) %>%
+         select(all_of(input$table_vars)) #%>%
           # mutate(
           #   Details = shinyInput(
           #     actionButton, 
