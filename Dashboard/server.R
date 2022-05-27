@@ -5,34 +5,43 @@ server <- function(input, output, session) {
 
   ## Graph: Share of learning priority -----------------------------------------
   output$learning_priority_bar <- 
-    renderPlot({
-      priorities %>%
-        group_by(name) %>%
+    renderPlotly({
+      plot <-
+        priorities %>%
+        left_join(learning_priority_aggregate) %>%
+        group_by(label) %>%
         summarise(count = n()) %>%
+        filter(label != "Other") %>%
         ggplot(
           aes(
             x = count,
-            y = name,
-            label = count
+            y = label,
+            label = paste("   ", count),
+            fill = label,
+            text = label
           )
         ) +
         geom_col() + 
         geom_text(
-          hjust = -.5
+          hjust = -1,
+          size = 6
         ) +
         scale_fill_manual(
-          values = categorical_colors
+          values = priority_colors
         ) +
         labs(
-          x = "Number of impact evaluations",
-          y = "Priority number"
+          x = NULL,
+          y = NULL,
+          title = "Number of impact evaluations by thematic priority"
         ) +
         theme_minimal() +
         theme(
           panel.grid.major = element_blank(),
-          axis.text.x = element_blank(),
-          axis.text.y = element_text(size = 14)
+          axis.text = element_blank(),
+          legend.position = "none"
         )
+      
+        ggplotly(plot, tooltip = "text")
         
     })
 

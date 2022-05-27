@@ -12,11 +12,11 @@
       ) +
       scale_fill_manual(
         name = NULL,
-        values = region_colors
+        values = priority_colors
       ) +
         scale_color_manual(
           name = NULL,
-          values = region_colors
+          values = priority_colors
         ) +
       theme_void() +
       theme(
