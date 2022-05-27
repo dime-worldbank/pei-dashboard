@@ -60,6 +60,22 @@ hr {
   padding-right: 10px;
 }
 
+.box-header .box-title {
+  font-size: 15px;
+}
+
+.box-header {
+  padding: 12px
+}
+
+.btn {
+  padding: 6px
+}
+
+.box {
+  margin-bottom: 5px;
+}
+
 #graph {
 
 }
