@@ -1,0 +1,371 @@
+---
+Title: "Project Details"
+output: 
+  html_fragment
+params:
+  ie_data: NA
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning =  FALSE, message = FALSE, skimr_include_summary = FALSE)
+data <- params$ie_data
+```
+
+::: {.section}
+INTERVENTION 
+:::
+---------------
+
+::: {.title}
+`r data[, "prog_name"]`
+:::
+
+
+::::: {class='fluid-row distable'}
+
+::: {class='col-sm-4 colinfo'}
+
+`r shiny::icon("list-alt")`<br>
+[BASIC PROGRAM INFORMATION]{.coltitle} <br>
+[COUNTRY]{.infotitle} <br>
+[`r data[, "country"]`]{.infotext} <br>
+[REGION]{.infotitle} <br>
+[`r data[, "region"]`]{.infotext} <br>
+[LEAD IMPLEMENTING AGENCY]{.infotitle} <br>
+[`r data[, "leadname"]`]{.infotext} <br>
+[TYPE LEAD IMPLEMENTING AGENCY]{.infotitle} <br>
+[`r data[, "lead"]`]{.infotext}
+
+:::
+
+::: {class='col-sm-4 colinfo'}
+
+`r shiny::icon("address-card")` <br>
+[PARTICIPANT PROFILE]{.coltitle} <br>
+[TARGETED POVERTY GROUPS]{.infotitle} <br>
+[`r data[, "pov_seg"]`]{.infotext} <br>
+[PRIORITY VULNERABLE GROUPS]{.infotitle} <br>
+[`r data[, "priority_group"]`]{.infotext}
+
+:::
+
+::: {class='col-sm-4 colinfo'}
+
+`r shiny::icon("users")` <br>
+[PROGRAM COVERAGE]{.coltitle} <br>
+[TOTAL NUMBER OF BENEFICIARIES]{.infotitle} <br>
+[`r data[, "total_beneficiary"]`]{.infotext} <br>
+[AREAS]{.infotitle} <br>
+[`r data[, "area"]`]{.infotext} <br>
+[GEOGRAPHIC COVERAGE]{.infotitle} <br>
+[`r data[, "geo_cov"]`]{.infotext}
+
+:::
+
+:::::
+
+<br>
+
+::: {.section}
+IMPACT EVALUATION 
+:::
+---------------
+::: {.title}
+`r data[, "ie_name"]`
+:::
+
+::::: {class='fluid-row distable'}
+
+::: {class='col-sm-9 colsum'}
+
+`r data[, "ie_summary"]`
+
+:::
+
+::: {class='col-sm-3 colpi'}
+
+`r shiny::icon("book-reader")` <br>
+[PRINCIPAL INVESTIGATORS]{.pititle} <br>
+[`r data[, "pi_list"]`]{.pitext} <br> <br>
+`r shiny::icon("calendar-alt")` <br>
+[TIMELINE]{.pisection} <br>
+[Baseline results: `r data[, "baseline_results"]`]{.pitext} <br>
+[Final results: `r data[, "final_results"]`]{.pitext}
+
+:::
+
+:::::
+
+<br>
+
+::: {.title}
+IDENTIFICATION STRATEGY 
+:::
+
+```{r}
+# Code to choose the image to display
+# Initialize the folder that contains the picture
+folder <- "www/"
+if (str_detect(data$ie_method,"Randomized Controlled Trial")) {
+  rct_img = paste0(folder, "rct.png")
+} else {
+  rct_img = paste0(folder, "rct_gray.png")
+}
+
+if (str_detect(data$ie_method,"DIFFERENCE-IN-DIFFERENCES")) {
+  did_img = paste0(folder, "did.png")
+} else {
+  did_img = paste0(folder, "did_gray.png")
+}
+
+if (str_detect(data$ie_method,"INSTRUMENTAL VARIABLE")) {
+  iv_img = paste0(folder, "iv.png")
+} else {
+  iv_img = paste0(folder, "iv_gray.png")
+}
+
+if (str_detect(data$ie_method,"MATCHING")) {
+  matching_img = paste0(folder, "matching.png")
+} else {
+  matching_img = paste0(folder, "matching_gray.png")
+}
+
+if (str_detect(data$ie_method,"REGRESSION DISCONTINUITY DESIGN")) {
+  rdd_img = paste0(folder, "rdd.png")
+} else {
+  rdd_img = paste0(folder, "rdd_gray.png")
+}
+
+if (str_detect(data$ie_method,"OTHER")) {
+  other_img = paste0(folder, "other.png")
+} else {
+  other_img = paste0(folder, "other_gray.png")
+}
+```
+
+
+:::::: {class='fluid-row idenstrat'}
+
+::: {class='col-sm-4 method'}
+
+![rct](`r rct_img`) 
+<br>
+[RANDOMIZED CONTROLLED TRIAL]{.methodtext}
+
+:::
+
+::: {class='col-sm-4 method'}
+
+![did](`r did_img`)
+<br>
+[DIFFERENCE-IN-DIFFERENCES]{.methodtext}
+
+:::
+
+::: {class='col-sm-4 method'}
+
+![iv](`r iv_img`)
+<br>
+[INSTRUMENTAL VARIABLE]{.methodtext}
+
+:::
+
+::::::
+
+:::::: {class='fluid-row idenstrat'}
+
+::: {class='col-sm-4 method'}
+
+![matching](`r matching_img`)
+<br>
+[MATCHING]{.methodtext}
+
+:::
+
+::: {class='col-sm-4 method'}
+
+![rdd](`r rdd_img`)
+<br>
+[REGRESSION DISCONTINUITY DESIGN]{.methodtext}
+
+:::
+
+::: {class='col-sm-4 method'}
+
+![other](`r other_img`)
+<br>
+[OTHER]{.methodtext}
+
+:::
+
+::::::
+
+<br>
+
+::: {.title}
+RESEARCH QUESTION(S)
+:::
+
+
+::: {class='researchq'}
+
+```{r}
+question <- 
+  str_replace_all(
+    data[, "ie_questions"],
+    "<br>", 
+    "<br><b>&#10148;</b> "
+  ) 
+question <- 
+  paste(
+    "<b>&#10148;</b>", 
+    question, 
+    sep= " "
+    )
+
+```
+
+`r question`
+
+:::
+
+<br>
+
+::: {.title}
+LEARNING PRIORITIES 
+:::
+
+```{r}
+# Code to choose the image to display
+# Initialize the folder that contains the picture
+folder <- "www/"
+if (str_detect(data$learning_p,"Cost-effectiveness of large-scale government-led programs")
+    || str_detect(data$learning_p,"Spillovers and general equilibrium effects")
+    ) {
+  img_lp1 = paste0(folder, "effectiveness.png")
+} else {
+  img_lp1 = paste0(folder, "effectiveness_gray.png")
+}
+
+if (str_detect(data$learning_p,"Scalability, impact and cost-effectiveness")) {
+  img_lp2 = paste0(folder, "modality.png")
+} else {
+  img_lp2 = paste0(folder, "modality_gray.png")
+}
+
+if (str_detect(data$learning_p,"How impacts vary over time")) {
+  img_lp3 = paste0(folder, "time.png")
+} else {
+  img_lp3 = paste0(folder, "time_gray.png")
+}
+
+if (str_detect(data$learning_p,"Optimal bundle/marginal contribution of bundled interventions")
+    || str_detect(data$learning_p,"Timing, sequencing, and intensity of bundled interventions")
+    ) {
+  img_lp4 = paste0(folder, "bundling.png")
+} else {
+  img_lp4 = paste0(folder, "bundling_gray.png")
+}
+
+if (str_detect(data$learning_p,"Cost-effectiveness across population groups")
+    || str_detect(data$learning_p,"Increasing cost-effectiveness for sub-groups")
+    ) {
+  img_lp5 = paste0(folder, "targeting.png")
+} else {
+  img_lp5 = paste0(folder, "targeting_gray.png")
+}
+
+if (str_detect(data$learning_p,"Adapting programs to urban contexts")
+    || str_detect(data$learning_p,"Adapting programs to fragile contexts")
+    ) {
+  img_lp6 = paste0(folder, "external.png")
+} else {
+  img_lp6 = paste0(folder, "external_gray.png")
+}
+
+if (str_detect(data$learning_p,"Effects on resilience and mechanisms")) {
+  img_lp7 = paste0(folder, "resilience.png")
+} else {
+  img_lp7 = paste0(folder, "resilience_gray.png")
+}
+
+if (str_detect(data$learning_p,"Other")) {
+  img_lp8 = paste0(folder, "other_lp.png")
+} else {
+  img_lp8 = paste0(folder, "other_lp_gray.png")
+}
+```
+
+
+::::::: {class='fluid-row idenstrat'}
+
+::: {class='col-sm-3 learning'}
+
+![lp1](`r img_lp1`) 
+<br>
+[EFFECTIVENESS AT SCALE]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp2](`r img_lp2`)
+<br>
+[SCALABLE DELIVERY MODALITY]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp3](`r img_lp3`)
+<br>
+[DYNAMICS OVER TIME]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp4](`r img_lp4`)
+<br>
+[BUNDLING OF INTERVENTIONS]{.methodtext}
+
+:::
+
+:::::::
+
+::::::: {class='fluid-row idenstrat'}
+
+::: {class='col-sm-3 learning'}
+
+![lp5](`r img_lp5`)
+<br>
+[TARGETING/HETEROGENEITY]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp6](`r img_lp6`)
+<br>
+[EXTERNAL VALIDITY ACROSS SETTINGS]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp7](`r img_lp7`)
+<br>
+[RESILIENCE AND SHOCK RESPONSIVENESS]{.methodtext}
+
+:::
+
+::: {class='col-sm-3 learning'}
+
+![lp8](`r img_lp8`)
+<br>
+[OTHER]{.methodtext}
+
+:::
+
+:::::::
+
