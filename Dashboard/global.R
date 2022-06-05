@@ -9,6 +9,7 @@ library(shinyWidgets)
 library(shinyjs)
 library(shinyBS)
 library(shinyhelper)
+library(shinycssloaders)
 
 library(tidyverse)
 library(ggplot2)
@@ -165,10 +166,10 @@ strs_detect_any <-
       rowSums() > 0
   }
 
-shinyInput <- function(FUN, len, ...) {
+shinyInput <- function(FUN, len, id, ...) {
   inputs <- character(len)
   for (i in seq_len(len)) {
-    inputs[i] <- as.character(FUN(i, ...))
+    inputs[i] <- as.character(FUN(id[i], ...))
   }
   inputs
 }

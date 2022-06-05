@@ -13,6 +13,7 @@ ui <- fluidPage(
     ),
     
     useShinydashboard(),
+    shinyjs::useShinyjs(),
 
 # Home page --------------------------------------------------------------------
 
@@ -340,7 +341,17 @@ ui <- fluidPage(
           column(
             width = 9,
             dataTableOutput("table")
-          )
+          ),
+          bsModal(
+            id = "popup", 
+            title = "Project Details", 
+            trigger = "test",
+            withSpinner(
+              uiOutput(
+                "iecard"
+                )
+              )
+            )
         ),
         
         fluidRow(
