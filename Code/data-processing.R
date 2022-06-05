@@ -50,7 +50,8 @@ raw <-
       "Data",
       "raw",
       "Landscape Survey of Ongoing Economic Inclusion Impact Evaluations_WIDE.csv"
-    )
+    ),
+    encoding = "UTF-8"
   ) %>%
   select(
     -starts_with("country_"),
@@ -103,6 +104,13 @@ project_country %>%
     )
   )
 
+region_project <-
+  project_country %>%
+  group_by(KEY) %>%
+  summarize(
+    region = paste(region %>% unique, collapse = "<br>")
+  )
+
 ## Process PI information ------------------------------------------------------
 
 pi <-
@@ -144,6 +152,58 @@ pi_affiliation_project <-
   group_by(KEY) %>%
   summarize(
     pi_affiliation = paste(affiliation %>% unique, collapse = "<br>")
+  )
+
+pi_info <-
+  pi %>%
+  mutate(
+    details = paste(
+      paste(
+        "- <b>", 
+        paste(
+          first_name, 
+          last_name, 
+          sep = " "
+        ),
+        "</b>",
+        sep = ""
+        ),
+      position,
+      affiliation,
+      sep = ", "
+    )
+  ) %>%
+  select(
+    KEY,
+    details
+  ) %>%
+  group_by(KEY) %>%
+  summarize(
+    pi_list = paste(details %>% unique, collapse = "<br>")
+  )
+
+## Process IE questions ------------------------------------------------------
+
+ieq <-
+  raw %>%
+  select(
+    KEY,
+    starts_with("q_")
+  ) %>%
+  pivot_longer(
+    cols = starts_with("q_"),
+    names_pattern = "q_(.)",
+    names_to = "rep",
+    values_to = "ie_question"
+  ) %>%
+  filter(ie_question != "") %>%
+  select(-rep)
+
+ieq_project <-
+  ieq %>%
+  group_by(KEY) %>%
+  summarize(
+    ie_questions = paste(ie_question %>% unique, collapse = "<br>")
   )
 
 ## Process project information -------------------------------------------------
@@ -202,7 +262,8 @@ labeled <-
     target_method = label_select_multiple(target_method, target_method_lab, target_method_s),
     ie_method = label_select_multiple(ie_method, ie_method_lab, ie_method_s),
     cluster = label_select_one(cluster, cluster_lab),
-    country = label_select_multiple(country, country_lab)
+    country = label_select_multiple(country, country_lab),
+    learning_p = label_select_multiple(learning_priority, learning_priority_lab)
   )
 
 ### Combine all data -----------------------------------------------------------
@@ -211,13 +272,29 @@ data <-
   raw %>%
   select(
     KEY,
+    prog_name,
+    leadname,
     total_beneficiary,
     learning_priority,
     ie_name,
-    ie_summary
+    ie_summary,
+    baseline_results,
+    final_results
   ) %>%
   left_join(labeled) %>%
-  left_join(pi_affiliation_project)
+  left_join(pi_affiliation_project) %>%
+  left_join(ieq_project) %>%
+  left_join(region_project) %>%
+  left_join(pi_info)
+
+# Assign rowname to projects
+rownames(data) <- 
+  paste0(
+    "P",
+    seq_len(
+      nrow(data)
+      )
+    ) 
 
 data %>%
   write_rds(
