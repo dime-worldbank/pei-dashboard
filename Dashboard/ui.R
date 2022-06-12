@@ -71,13 +71,13 @@ ui <- fluidPage(
           ),
           
           ## Thematic priorities ----------------------------------------------
-          h4("Thematic priorities"),
-          
           fluidRow(
             
             ### Boxes ---------------------------------------------------------
             column(
-              width = 8,
+              width = 7,
+              
+              h4("Thematic priorities"),
               
               box(
                 width = 12,
@@ -145,11 +145,11 @@ ui <- fluidPage(
           
             ### Graph ----------------------------------------------------------
             column(
-              width = 4,
+              width = 5,
               status = "info",
               title = "Share of learning priorities",
 
-              plotOutput(
+              plotlyOutput(
                 "learning_priority_bar"
               )
             )
@@ -374,4 +374,3 @@ ui <- fluidPage(
     ) # Closes Table tab panel
   ) # Navbarpage closing
 ) # UI closing
-
