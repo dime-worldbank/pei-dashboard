@@ -24,7 +24,7 @@ server <- function(input, output, session) {
         geom_col() + 
         geom_text(
           hjust = -1,
-          size = 6
+          size = 4
         ) +
         scale_fill_manual(
           values = priority_colors
@@ -37,8 +37,10 @@ server <- function(input, output, session) {
         theme_minimal() +
         theme(
           panel.grid.major = element_blank(),
-          axis.text = element_blank(),
-          legend.position = "none"
+          axis.text.y = element_text(size = 10),
+          axis.text.x = element_blank(),
+          legend.position = "none",
+          plot.title = element_text(hjust = 0.95)
         )
       
         ggplotly(plot, tooltip = "text")

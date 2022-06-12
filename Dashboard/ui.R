@@ -74,7 +74,7 @@ ui <- fluidPage(
             
             ### Boxes ---------------------------------------------------------
             column(
-              width = 8,
+              width = 7,
               
               h4("Thematic priorities"),
               
@@ -144,7 +144,7 @@ ui <- fluidPage(
           
             ### Graph ----------------------------------------------------------
             column(
-              width = 4,
+              width = 5,
               status = "info",
               title = "Share of learning priorities",
 
