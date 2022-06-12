@@ -350,6 +350,19 @@ ui <- fluidPage(
               uiOutput(
                 "iecard"
                 )
+              ),
+            br(),
+            hr(),
+            fluidRow(
+              column(
+                width = 2,
+                offset = 10,
+                downloadButton(
+                  "download", 
+                  "Download",
+                  icon = icon("download")
+                  )
+                )
               )
             )
         ),

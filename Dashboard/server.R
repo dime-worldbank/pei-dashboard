@@ -317,5 +317,21 @@ server <- function(input, output, session) {
     }
   )
   
+ 
+  output$download <- 
+    downloadHandler(
+      filename = "ProjectDetails.html",
+      content = function(file) {
+        rmarkdown::render(
+          file.path(
+            "iecard",
+            "iecard_download.Rmd"
+          ),
+          output_file = file,
+          envir = new.env(parent = globalenv())
+        )
+        }
+      )
+  
     
 }
