@@ -1,5 +1,7 @@
 server <- function(input, output, session) {
   
+  # Initialize helper
+  observe_helpers(withMathJax = TRUE)
   
   # Home Page-------------------------------------------------------------------
 
@@ -262,22 +264,22 @@ server <- function(input, output, session) {
             table %>%
             filter(strs_detect_any(priority_group, input$table_target))
         }
-        
+          
        table %>%
          rename(column_list) %>%
-         select(all_of(input$table_vars)) #%>%
-          # mutate(
-          #   Details = shinyInput(
-          #     actionButton, 
-          #     nrow(.), 
-          #     "button_", 
-          #     label = "View project details", 
-          #     class = "btn-primary",
-          #     onclick = 'Shiny.onInputChange(\"select_button\",  this.id)')
-          # )
+         select(all_of(input$table_vars)) %>%
+           mutate(
+             Details = shinyInput(
+               actionButton,
+               nrow(.),
+               row.names(.),
+               label = "View project details",
+               class = "btn-primary",
+               onclick = 'Shiny.onInputChange(\"select_button\",  this.id)')
+           )
       },
       filter = "top",
-      selection = "multiple", 
+      selection = "none", 
       escape = FALSE,
       options = list(
         pageLength = 15,
@@ -290,6 +292,57 @@ server <- function(input, output, session) {
         
       
     )
+  
+  # Project page ----------------------------------------------------------------
+  
+  observeEvent(
+    input$select_button, 
+    {
+      ie_data <- 
+        project_data %>%
+        filter(
+          row.names(.) == input$select_button
+          )
+      
+      # Render the IE Card
+      output$iecard <- 
+        renderUI(
+          {
+            includeHTML(
+              rmarkdown::render(
+                file.path(
+                  "iecard",
+                  "iecard.Rmd"
+                  ),
+                params = list(
+                  ie_data = ie_data
+                  ),
+                output_file = "iecard.html"
+              )
+            )
+          }
+          )
+      
+      toggleModal(session, "popup", toggle = "toggle")
+      
+    }
+  )
+  
+ 
+  output$download <- 
+    downloadHandler(
+      filename = "ProjectDetails.html",
+      content = function(file) {
+        rmarkdown::render(
+          file.path(
+            "iecard",
+            "iecard_download.Rmd"
+          ),
+          output_file = file,
+          envir = new.env(parent = globalenv())
+        )
+        }
+      )
   
     
 }

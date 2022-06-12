@@ -1,5 +1,27 @@
-# Load packages ----------------------------------------------------------------
+---
+title: "Data processing for PEI IE Collaborative Dashboard"
+author: "Luiza Cardoso de Andrade"
+date: "May 2022"
+output: rmdformats::robobook
+---
 
+# Introduction
+
+This document summarizes the data processing done for PEI IE Collaborative Dashboard. The dashboard summarizes planned and ongoing impact evaluations studies related to economic inclusion programs, and how they map to the PEI IE Collaborative's priority evidence gaps to inform the scaling-up of economic inclusion programs. The objective of this dashboard is to allow the PEI IE Collaborative and its technical partners to identify sources of potential future evidence, and thus bridge the knowledge gap between published results/evidence and ongoing/planned rigorous studies. Thus, it supports the production of knowledge public goods and tools based on ongoing and completed evaluations, which is one of the Collaborative's goals..
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(warning =  FALSE, message = FALSE, skimr_include_summary = FALSE)
+```
+
+The notebook contains R code and outputs.
+
+# Preparatory works
+
+## Load packages
+
+The packages required for the data processing are loaded using the code below.
+
+```{r}
 packages <-
   c(
    "here",
@@ -12,8 +34,13 @@ pacman::p_load(
   packages,
   character.only = TRUE
 )
+```
 
-# Country codes
+## WB country codes
+
+A csv file (`country-codes.csv`) provides information on all the countries according to WB definition. These information which include *country code*, *country name*, *region*  are imported from the CSV file and stored as a data frame `countries`.
+
+```{r}
 countries <-
   read_csv(
     here(
@@ -22,11 +49,11 @@ countries <-
     )
   ) %>%
   mutate(country_code = as.character(country_code))
+```
 
-# Process survey data ---------------------------------------------------------
+In preparation for data processing, a named character vector `country_lab` has been created using the cde below.
 
-## Load data -------------------------------------------------------------------
-
+```{r}
 country_lab_prep <-
   countries %>%
   transmute(
@@ -41,9 +68,16 @@ country_lab <-
   country_lab_prep$country
 names(country_lab) <-
   country_lab_prep$country_code
+```
 
+# Process survey data
 
+## Load raw data
+The data used by the dashboard has been obtained through a form using Survey CTO. We will start by loading the raw data (which will be save in a data table named `raw`) and defining the survey options (using the code written in the R script `define_label.R`).
+
+```{r}
 # Load the raw survey data
+# This will be updated to get data from Survey CTO by API
 raw <- 
   read.csv(
     here(
@@ -59,8 +93,7 @@ raw <-
     -c(instanceID:formdef_version)
   )
 
-## Survey options --------------------------------------------------------------
-
+# Survey options
 source(
   here(
     "Dashboard",
@@ -68,9 +101,12 @@ source(
     "define_labels.R"
   )
 )
+```
 
-## Process country information -------------------------------------------------
+## Country information
+The variable `country`in the survey form is a multi-select question meaning that a particular IE could be implemented in several countries. Country information from the raw data needs to be processed to allow easy utilization in the dashboard. The code below allow to get at the end a list of all the IE implemented in each country. An IE implemented in several countries will appear several times (one time for each country) while the `key` variable allows to identify the IE.
 
+```{r}
 project_country <-
   raw %>%
   select(
@@ -94,7 +130,10 @@ project_country <-
     -iso_a3,
     -country_code
   )
+```
 
+The data table obtained is then saved as a **rds** file (`projects-country.rds`) which will be used later.
+```{r}
 project_country %>%
   write_rds(
     here(
@@ -103,16 +142,28 @@ project_country %>%
       "projects-country.rds"
     )
   )
+```
 
+In addition, a summary data table named `region_project` is created which presents the region(s) in which every project is implemented (one line per project).
+
+```{r}
 region_project <-
   project_country %>%
   group_by(KEY) %>%
   summarize(
     region = paste(region %>% unique, collapse = "<br>")
   )
+```
 
-## Process PI information ------------------------------------------------------
+## PI information
+The code below allows to process Principal Investigator (PI) information through the following three steps:
 
+- The first result obtained (`pi`) is a list of all the IE implemented and information about the PI (first name, last name, affiliation, and position). An IE implemented by several PI will appear several times (one time for each PI) while the `key` variable allows to identify the IE.
+- Then, sensitive information (names and positions) are removed from `pi` data table to obtain `pi_affiliation` data table.
+- Lastly, `pi_affiliation` data table is saved as a rds file name `pis.rds` to be used later.
+
+
+```{r}
 pi <-
   raw %>%
   select(
@@ -146,14 +197,22 @@ pi_affiliation %>%
       "pis.rds"
     )
   )
+```
 
+In addition, a summary data table named `pi_affiliation_project` is created which presents the PI affiliation by project (one line per project) putting together information for all the PI associated with the IE.
+
+```{r}
 pi_affiliation_project <-
   pi_affiliation %>%
   group_by(KEY) %>%
   summarize(
     pi_affiliation = paste(affiliation %>% unique, collapse = "<br>")
   )
+```
 
+Moreover, a summary data table named `pi_info` is created which presents the PI list by project (one line per project) putting together all the information for all the PI associated with the IE.
+
+```{r}
 pi_info <-
   pi %>%
   mutate(
@@ -181,9 +240,16 @@ pi_info <-
   summarize(
     pi_list = paste(details %>% unique, collapse = "<br>")
   )
+```
 
-## Process IE questions ------------------------------------------------------
+## Impact Evaluation questions
+The code below allows to process IE questions information through the following three steps:
 
+- The first result obtained (`ieq`) is a list of all the IE implemented and their associated questions. An IE implemented with several research questions will appear several times (one time for each questions) while the `key` variable allows to identify the IE.
+- In addition, a summary data table named `ieq_project` is created which presents the research questions by project (one line per project).
+
+
+```{r}
 ieq <-
   raw %>%
   select(
@@ -205,11 +271,14 @@ ieq_project <-
   summarize(
     ie_questions = paste(ie_question %>% unique, collapse = "<br>")
   )
+```
 
-## Process project information -------------------------------------------------
 
-### Label variables ------------------------------------------------------------
+## Project information
 
+Two functions are defined below to facilitate labeling of project information raw data from the survey: `label_select_one` for single choice questions and `label_select_multiple` for multi select questions.
+
+```{r}
 label_select_one <-
   function(x, label, other = NULL) {
     var <- 
@@ -248,7 +317,11 @@ label_select_multiple <-
     
     return(var)
   }
+```
 
+These two function are then used to label some variables and the output is stored in a data table named `labeled` as shown in the code below. 
+
+```{r}
 labeled <-
   raw %>%
   transmute(
@@ -265,9 +338,13 @@ labeled <-
     country = label_select_multiple(country, country_lab),
     learning_p = label_select_multiple(learning_priority, learning_priority_lab)
   )
+```
 
-### Combine all data -----------------------------------------------------------
+## Combination of data
 
+The code below combines the data tables `raw`, `labeled`, `pi_affiliation_project`, `ieq_project`, `region_project`, and `pi_info` . It also affects row name to each project to facilitate row identification later. The output will be saved in a data table named `data` and also saved as a rds file named `projects.rds` which will be used later.
+
+```{r}
 data <-
   raw %>%
   select(
@@ -304,9 +381,12 @@ data %>%
       "projects.rds"
     )
   )
+```
 
-### Learning priorities --------------------------------------------------------
+## Learning priorities
+The variable `learning_priority`in the survey form is a multi-select question meaning that a particular IE could be have several learning priorities. Information about learning priorities from the raw data needs to be processed to allow easy utilization in the dashboard. The code below allow to get at the end a list of all couple **IE -> learning priority**. An IE with several learning priorities will appear several times (one time for each learning priority) while the `key` variable allows to identify the IE.
 
+```{r}
 learning <-
   data %>%
   select(
@@ -341,7 +421,10 @@ learning <-
      -priority
     )
   )
+```
 
+The data table obtained is then saved as a **rds** file (`priorities.rds`) which will be used later.
+```{r}
 learning %>%
   write_rds(
     here(
@@ -350,9 +433,13 @@ learning %>%
       "priorities.rds"
     )
   )
+```
 
-### Targeting --------------------------------------------------------
+## Targeting
 
+Almost the same processing has been done on the variable `priority_group`which is also a multi select question but has been already labeled under project information section. 
+
+```{r}
 targeting <-
   data %>%
   select(
@@ -375,7 +462,10 @@ targeting <-
   ) %>%
   filter(!is.na(target)) %>%
   select(-count) 
+```
 
+The data table obtained (`targeting`) is then saved as a **rds** file (`targeting.rds`) which will be used later in the dashboard.
+```{r}
 targeting %>%
   write_rds(
     here(
@@ -384,9 +474,12 @@ targeting %>%
       "targeting.rds"
     )
   )
+```
 
-# Process geospatial data ------------------------------------------------------
+# Process geospatial data
 
+The dashboard is expected to have a map feature. For this purpose, the code below load the shape file provided and add the information stored in `countries` data table (see section **WB country codes**). The output is then stored in `map` after doing a doing a coordinates transformation using *st_transform("+proj=robin")*.
+```{r results='hide'}
 map <- 
   st_read(
     here(
@@ -404,7 +497,11 @@ map <-
     region
   ) %>%
   st_transform("+proj=robin")
+```
 
+The output `map` is also save as a **rds** file (`map.rds`) which will be used later in the dashboard.
+
+```{r}
 map %>%
   write_rds(
     here(
@@ -413,7 +510,11 @@ map %>%
       "map.rds"
     )
   )
+```
 
+Finally, the code below allows to compute the centroids of the countries and the output is stored in `centroids` before being saved as a **rds** file (`centroids.rds`) which will be used later in the dashboard.
+
+```{r}
 centroids <-
   map %>%
   st_centroid()
@@ -426,5 +527,5 @@ centroids %>%
       "centroids.rds"
     )
   )
-
+```
 

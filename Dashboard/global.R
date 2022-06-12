@@ -9,6 +9,8 @@ library(shinyWidgets)
 library(shinyjs)
 library(shinyBS)
 library(shinyhelper)
+library(shinycssloaders)
+
 
 library(tidyverse)
 library(ggplot2)
@@ -16,6 +18,20 @@ library(sf)
 
 library(DT)
 library(plotly)
+
+# Options ----------------------------------------------------------------------
+
+categorical_colors <-
+  c(
+    "#18BC9C",
+    "#2C3E50",
+    "#F39C12",
+    "#E74C3C",
+    "#3498DB",
+    "#18BC9C",
+    "#2C3E50",
+    "#F39C12"
+  )
 
 # Survey options ---------------------------------------------------------------
 
@@ -128,25 +144,6 @@ learning_priority <-
     "Other" = c("Other" = "12")
   )
 
-learning_priority_aggregate <-
-  learning_priority %>%
-  as_tibble %>%
-  pivot_longer(
-    cols = everything(),
-    values_to = "priority",
-    names_to = "label"
-  ) %>%
-  unique %>%
-  mutate(
-    priority = as.numeric(priority),
-    label = 
-      label %>%
-      factor(
-        levels = rev(names(learning_priority)),
-        ordered = TRUE
-      )
-  )
-
 # Map colors -------------------------------------------------------------------
 
 region_colors <-
@@ -160,17 +157,6 @@ region_colors <-
     "#dbcd60"
   )
 
-priority_colors <-
-  c(
-    "#fdc646",
-    "#eab61d",
-    "#b1b33b",
-    "#8ab55f",
-    "#47b181",
-    "#2ea3a3",
-    "#39cccc"
-  )
-
 # Functions --------------------------------------------------------------------
 
 strs_detect_any <- 
@@ -181,10 +167,10 @@ strs_detect_any <-
       rowSums() > 0
   }
 
-shinyInput <- function(FUN, len, ...) {
+shinyInput <- function(FUN, len, id, ...) {
   inputs <- character(len)
   for (i in seq_len(len)) {
-    inputs[i] <- as.character(FUN(i, ...))
+    inputs[i] <- as.character(FUN(id[i], ...))
   }
   inputs
 }

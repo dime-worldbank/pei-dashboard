@@ -13,6 +13,7 @@ ui <- fluidPage(
     ),
     
     useShinydashboard(),
+    shinyjs::useShinyjs(),
 
 # Home page --------------------------------------------------------------------
 
@@ -340,7 +341,30 @@ ui <- fluidPage(
           column(
             width = 9,
             dataTableOutput("table")
-          )
+          ),
+          bsModal(
+            id = "popup", 
+            title = "Project Details", 
+            trigger = "test",
+            withSpinner(
+              uiOutput(
+                "iecard"
+                )
+              ),
+            br(),
+            hr(),
+            fluidRow(
+              column(
+                width = 2,
+                offset = 10,
+                downloadButton(
+                  "download", 
+                  "Download",
+                  icon = icon("download")
+                  )
+                )
+              )
+            )
         ),
         
         fluidRow(
@@ -350,4 +374,3 @@ ui <- fluidPage(
     ) # Closes Table tab panel
   ) # Navbarpage closing
 ) # UI closing
-
