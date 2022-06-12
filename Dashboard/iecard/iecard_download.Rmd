@@ -1,0 +1,17 @@
+---
+title: "Project Details"
+output: 
+  html_document:
+    css: "www/card.css"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning =  FALSE, message = FALSE, skimr_include_summary = FALSE)
+```
+
+<br>
+
+```{r}
+htmltools::includeHTML("iecard.html")
+```
+
