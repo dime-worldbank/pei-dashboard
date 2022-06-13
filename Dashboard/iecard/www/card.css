@@ -1,0 +1,302 @@
+hr {
+  border-top: 1px solid #d2e7fa;
+  }
+
+/*--------------------------------------------------------------
+# CSS for project card
+--------------------------------------------------------------*/
+  
+#popup .modal-dialog {
+  width:1200px
+}
+
+
+
+#popup .modal-title {
+  font-size: 12px;
+}
+
+.section {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.fa.fa-list-alt {
+    font-size: 50px;
+    font-weight: 200;
+    color: #9bd3cc;
+}
+
+.fa.fa-address-card {
+    font-size: 50px;
+    font-weight: 200;
+    color: #9bd3cc;
+}
+
+.fa.fa-users {
+    font-size: 50px;
+    color: #9bd3cc;
+}
+
+.fa.fa-book-reader {
+    font-size: 50px;
+    color: #494c50;
+}
+
+.fa.fa-calendar-alt {
+    font-size: 50px;
+    font-weight: 200;
+    color: #494c50;
+}
+
+.fa.fa-question {
+    font-size: 70px;
+    color: #9bd3cc;
+}
+
+
+.distable {
+    display: table;
+}
+
+.colinfo {
+  background-color: #4c7ca3;
+  border: 2px solid #ebebea;
+  text-align: center;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.coltitle {
+  font-size: 18px;
+  font-weight: bold;
+  color:#9bd3cc;
+  padding-bottom: 10px;
+}
+
+.infotitle {
+  font-size: 16px;
+  color: #9bd3cc;
+  padding-top: 10px;
+}
+
+.infotext {
+  font-size: 14px;
+  color: #ebebea;
+}
+
+.colsum {
+  text-align: justify;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  float: none;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.colpi {
+  background-color: #ebebea;
+  border: 1px solid #ebebea;
+  text-align: center;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.pititle {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4c7ca3;
+}
+
+.pisection {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4c7ca3;
+}
+
+.pitext {
+  font-size: 14px;
+  color: #4c7ca3;
+}
+
+.iemethod {
+    display: table;
+}
+
+.method {
+  text-align: center;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.method img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+
+.methodtext {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #8b93a6;
+}
+
+
+.title2 {
+  font-size: 16px;
+  color: #4c7ca3;
+  font-weight: bold;
+}
+
+.idenstrat {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.qicon {
+  background-color: #4c7ca3;;
+  border: 1px solid #ebebea;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  float: none;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.researchq {
+  text-align: justify;
+  font-size: 14px;
+}
+
+
+.learning {
+  text-align: center;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.learning img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
+}
+
+#info_map {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-right: 10px;
+          background-color: #1995dc;
+          font-size: 12px;
+          color: #ffffff;
+          font-weight: bold;
+          text-align: center;
+      }
+      
+#filter_table {
+          border: 2px solid #1995dc;
+          padding-left: 10px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          padding-right: 10px;
+          background-color: white;
+      }
+      
+hr {
+  border-top: 1px solid #d2e7fa;
+  }
+  
+      
+#back_table {
+  border-color: #2fa4e7;
+  color: #ffffff;
+  background: #2fa4e7;
+  font-size: 12px;
+}
+
+#title {
+  border: 2px solid #1995dc;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  background-color: #1995dc;
+  font-weight: bold;
+  text-align: center;
+}
+
+#title h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+#about {
+  background-color: #edf4ff;
+  font-size: 14px;
+  color: #000000;
+  text-align: justify;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+}
+
+.box-header .box-title {
+  font-size: 15px;
+}
+
+.box-header {
+  padding: 12px
+}
+
+.btn {
+  padding: 6px
+}
+
+.box {
+  margin-bottom: 5px;
+}
+
+.learningdetails {
+  font-size: 14px;
+}

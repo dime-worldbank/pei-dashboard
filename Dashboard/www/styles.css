@@ -19,14 +19,14 @@ hr {
 .section {
   font-size: 16px;
   font-weight: bold;
-  color: #8b93a6;
+  color: #2c3e50;
 }
 
 .title {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
-  color: #4c7ca3;
-  text-align: center;
+  color: #2c3e50;
+  text-align: left;
 }
 
 .center {
@@ -88,11 +88,13 @@ hr {
   font-size: 18px;
   font-weight: bold;
   color:#9bd3cc;
+  padding-bottom: 10px;
 }
 
 .infotitle {
   font-size: 16px;
   color: #9bd3cc;
+  padding-top: 10px;
 }
 
 .infotext {
@@ -126,15 +128,15 @@ hr {
 }
 
 .pititle {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
-  color: #494c50;
+  color: #4c7ca3;
 }
 
 .pisection {
   font-size: 16px;
   font-weight: bold;
-  color: #494c50;
+  color: #4c7ca3;
 }
 
 .pitext {
@@ -156,9 +158,22 @@ hr {
   flex-direction: column;
 }
 
+.method img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+
 .methodtext {
-  font-size: 16px;
+  margin-top: 10px;
+  font-size: 14px;
   color: #8b93a6;
+}
+
+
+.title2 {
+  font-size: 16px;
+  color: #4c7ca3;
   font-weight: bold;
 }
 
@@ -183,15 +198,8 @@ hr {
 }
 
 .researchq {
-  background-color: #ebebea;
-  border: 1px solid #4c7ca3;
   text-align: justify;
-  padding-left: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-right: 20px;
-  font-size: 16px;
-  color: #4c7ca3;
+  font-size: 14px;
 }
 
 
@@ -206,8 +214,9 @@ hr {
 }
 
 .learning img {
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 10px;
 }
 
 #info_map {
@@ -286,4 +295,8 @@ hr {
 
 .box {
   margin-bottom: 5px;
+}
+
+.learningdetails {
+  font-size: 14px;
 }
