@@ -33,6 +33,29 @@ categorical_colors <-
     "#F39C12"
   )
 
+
+region_colors <-
+  c(
+    "#688ade",
+    "#d1a04b",
+    "#b86867",
+    "#76abad",
+    "#936d9e",
+    "#6d9e7d",
+    "#dbcd60"
+  )
+
+priority_colors <-
+  c(
+    "#fdc646",
+    "#eab61d",
+    "#b1b33b",
+    "#8ab55f",
+    "#47b181",
+    "#2ea3a3",
+    "#39cccc"
+  )
+
 # Survey options ---------------------------------------------------------------
 
 source(
@@ -144,17 +167,24 @@ learning_priority <-
     "Other" = c("Other" = "12")
   )
 
-# Map colors -------------------------------------------------------------------
 
-region_colors <-
-  c(
-    "#688ade",
-    "#d1a04b",
-    "#b86867",
-    "#76abad",
-    "#936d9e",
-    "#6d9e7d",
-    "#dbcd60"
+learning_priority_aggregate <-
+  learning_priority %>%
+  as_tibble %>%
+  pivot_longer(
+    cols = everything(),
+    values_to = "priority",
+    names_to = "label"
+  ) %>%
+  unique %>%
+  mutate(
+    priority = as.numeric(priority),
+    label = 
+      label %>%
+      factor(
+        levels = rev(names(learning_priority)),
+        ordered = TRUE
+      )
   )
 
 # Functions --------------------------------------------------------------------
