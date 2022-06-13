@@ -149,7 +149,7 @@ ui <- fluidPage(
               status = "info",
               title = "Share of learning priorities",
 
-              plotlyOutput(
+              plotOutput(
                 "learning_priority_bar"
               )
             )

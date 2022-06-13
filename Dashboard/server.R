@@ -7,9 +7,8 @@ server <- function(input, output, session) {
 
   ## Graph: Share of learning priority -----------------------------------------
   output$learning_priority_bar <- 
-    renderPlotly({
-      plot <-
-        priorities %>%
+    renderPlot({
+      priorities %>%
         left_join(learning_priority_aggregate) %>%
         group_by(label) %>%
         summarise(count = n()) %>%
@@ -25,8 +24,7 @@ server <- function(input, output, session) {
         ) +
         geom_col() + 
         geom_text(
-          hjust = -1,
-          size = 4
+          size = 5
         ) +
         scale_fill_manual(
           values = priority_colors
@@ -39,13 +37,14 @@ server <- function(input, output, session) {
         theme_minimal() +
         theme(
           panel.grid.major = element_blank(),
-          axis.text.y = element_text(size = 10),
+          axis.text.y = element_text(size = 14),
           axis.text.x = element_blank(),
           legend.position = "none",
-          plot.title = element_text(hjust = 0.95)
+          plot.title = element_text(
+            hjust = -2,
+            size = 16
+          )
         )
-      
-        ggplotly(plot, tooltip = "text")
         
     })
 
