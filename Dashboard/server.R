@@ -41,9 +41,10 @@ server <- function(input, output, session) {
           axis.text.x = element_blank(),
           legend.position = "none",
           plot.title = element_text(
-            hjust = -2,
+            hjust = -4,
             size = 16
-          )
+          ),
+          plot.margin = margin(.5, 0, .5, 0, "cm")
         )
         
     })
