@@ -336,7 +336,8 @@ if (str_detect(data$learning_p,"Other")) {
 ::::::: {class='fluid-row idenstrat'}
 
 ::: {class='col-sm-3 learningdetails'}
-- What is the cost-effectiveness of large-scale government-led programs? - What is the nature and extent of spillovers on the local economy and general equilibrium effects?
+- What is the cost-effectiveness of large-scale government-led programs? 
+- What is the nature and extent of spillovers on the local economy and general equilibrium effects?
 :::
 
 ::: {class='col-sm-3 learningdetails'}
