@@ -27,7 +27,9 @@ packages <-
    "here",
    "tidyverse",
    "rnaturalearth",
-   "sf"
+   "sf",
+   "readr",
+   "httr"
   )
 
 pacman::p_load(
@@ -73,20 +75,43 @@ names(country_lab) <-
 # Process survey data
 
 ## Load raw data
-The data used by the dashboard has been obtained through a form using Survey CTO. We will start by loading the raw data (which will be save in a data table named `raw`) and defining the survey options (using the code written in the R script `define_label.R`).
+The data used by the dashboard has been obtained through a form using Survey CTO. We will start by loading the raw data from Survey CTO using the API (which will be save in a data table named `raw`) and defining the survey options (using the code written in the R script `define_label.R`).
 
 ```{r}
-# Load the raw survey data
-# This will be updated to get data from Survey CTO by API
-raw <- 
+# Retrieve login information
+login_info <- 
   read.csv(
     here(
-      "Data",
-      "raw",
-      "Landscape Survey of Ongoing Economic Inclusion Impact Evaluations_WIDE.csv"
-    ),
-    encoding = "UTF-8"
+      "Documentation",
+      "scto_credentials.csv"
+    )
+  )
+
+cto_user <- login_info[1,1]
+cto_pwd <- login_info[1,2]
+
+# Data API URL
+url_survey_cto <- "https://survey.wb.surveycto.com/api/v1/forms/data/wide/csv/pei_ongoing_ies"
+
+# Load the raw survey data
+raw_data <- 
+  GET(
+    url_survey_cto, 
+    authenticate(
+      cto_user, 
+      cto_pwd
+    )
+  )
+
+raw <- 
+  read_csv(
+    content(
+      raw_data, 
+      "raw", 
+      encoding = "UTF-8"
+    )
   ) %>%
+  as.data.frame() %>%
   select(
     -starts_with("country_"),
     -c(SubmissionDate:duration),

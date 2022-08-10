@@ -249,51 +249,51 @@ folder <- "www/"
 if (str_detect(data$learning_p,"Cost-effectiveness of large-scale government-led programs")
     || str_detect(data$learning_p,"Spillovers and general equilibrium effects")
     ) {
-  img_lp1 = paste0(folder, "effectiveness.png")
+  img_lp1 = paste0(folder, "effectiveness.PNG")
 } else {
-  img_lp1 = paste0(folder, "effectiveness_gray.png")
+  img_lp1 = paste0(folder, "effectiveness_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Scalability, impact and cost-effectiveness")) {
-  img_lp2 = paste0(folder, "modality.png")
+  img_lp2 = paste0(folder, "modality.PNG")
 } else {
-  img_lp2 = paste0(folder, "modality_gray.png")
+  img_lp2 = paste0(folder, "modality_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"How impacts vary over time")) {
-  img_lp3 = paste0(folder, "time.png")
+  img_lp3 = paste0(folder, "time.PNG")
 } else {
-  img_lp3 = paste0(folder, "time_gray.png")
+  img_lp3 = paste0(folder, "time_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Optimal bundle/marginal contribution of bundled interventions")
     || str_detect(data$learning_p,"Timing, sequencing, and intensity of bundled interventions")
     ) {
-  img_lp4 = paste0(folder, "bundling.png")
+  img_lp4 = paste0(folder, "bundling.PNG")
 } else {
-  img_lp4 = paste0(folder, "bundling_gray.png")
+  img_lp4 = paste0(folder, "bundling_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Cost-effectiveness across population groups")
     || str_detect(data$learning_p,"Increasing cost-effectiveness for sub-groups")
     ) {
-  img_lp5 = paste0(folder, "targeting.png")
+  img_lp5 = paste0(folder, "targeting.PNG")
 } else {
-  img_lp5 = paste0(folder, "targeting_gray.png")
+  img_lp5 = paste0(folder, "targeting_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Adapting programs to urban contexts")
     || str_detect(data$learning_p,"Adapting programs to fragile contexts")
     ) {
-  img_lp6 = paste0(folder, "external.png")
+  img_lp6 = paste0(folder, "external.PNG")
 } else {
-  img_lp6 = paste0(folder, "external_gray.png")
+  img_lp6 = paste0(folder, "external_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Effects on resilience and mechanisms")) {
-  img_lp7 = paste0(folder, "resilience.png")
+  img_lp7 = paste0(folder, "resilience.PNG")
 } else {
-  img_lp7 = paste0(folder, "resilience_gray.png")
+  img_lp7 = paste0(folder, "resilience_gray.PNG")
 }
 
 if (str_detect(data$learning_p,"Other")) {
@@ -336,7 +336,8 @@ if (str_detect(data$learning_p,"Other")) {
 ::::::: {class='fluid-row idenstrat'}
 
 ::: {class='col-sm-3 learningdetails'}
-- What is the cost-effectiveness of large-scale government-led programs? - What is the nature and extent of spillovers on the local economy and general equilibrium effects?
+- What is the cost-effectiveness of large-scale government-led programs? 
+- What is the nature and extent of spillovers on the local economy and general equilibrium effects?
 :::
 
 ::: {class='col-sm-3 learningdetails'}
