@@ -88,10 +88,10 @@ login_info <-
   )
 
 cto_user <- login_info[1,1]
-cto_pwd <- login_info[1,2]
+cto_pwd  <- login_info[1,2]
 
 # Data API URL
-url_survey_cto <- "https://survey.wb.surveycto.com/api/v1/forms/data/wide/csv/pei_ongoing_ies"
+url_survey_cto <- "https://survey.wb.surveycto.com/api/v1/forms/data/wide/csv/pei_ongoing_ie"
 
 # Load the raw survey data
 raw_data <- 

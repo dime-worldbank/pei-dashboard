@@ -131,8 +131,10 @@ server <- function(input, output, session) {
           geom_sf(
             data = projects_location,
             aes(text = label),
-            size = 3,
-            color = "red"
+            shape = 25,
+            size = 2,
+            color = "gray20",
+            fill = "gray20"
           )
       }
  

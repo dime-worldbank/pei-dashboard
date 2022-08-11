@@ -8,7 +8,8 @@
         aes(
           fill = region,
           colour = region
-        )
+        ),
+        alpha = .8
       ) +
       scale_fill_manual(
         name = NULL,
