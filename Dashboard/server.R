@@ -333,7 +333,7 @@ server <- function(input, output, session) {
  
   output$download <- 
     downloadHandler(
-      filename = "ProjectDetails.html",
+      filename = "project-details.html",
       content = function(file) {
         rmarkdown::render(
           file.path(
